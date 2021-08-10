@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:online_shopee/views/shopping_page.dart';
+import 'package:getx_pattern_3/views/shopping_page.dart';
 
 void main() {
   runApp(MyApp());

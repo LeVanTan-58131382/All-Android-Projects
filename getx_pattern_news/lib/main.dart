@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getx_news_app_impl/feature/news_headline/binding/news_headline_binding.dart';
-import 'package:getx_news_app_impl/feature/news_headline/view/news_headling_view.dart';
-import 'package:getx_news_app_impl/feature/search_news/binding/search_news_binding.dart';
-import 'package:getx_news_app_impl/feature/search_news/view/search_news_view.dart';
+import 'package:getx_pattern_news/feature/news_headline/binding/news_headline_binding.dart';
+import 'package:getx_pattern_news/feature/news_headline/view/news_headling_view.dart';
+import 'package:getx_pattern_news/feature/search_news/binding/search_news_binding.dart';
+import 'package:getx_pattern_news/feature/search_news/view/search_news_view.dart';
 
 void main() {
   runApp(MyApp());

@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 // Exposing a value
 class User {
   // Không extends or with ChangeNotifer
-  String _name;
+  late String _name;
 
   String get name => _name;
   set name(newName) => _name = newName;

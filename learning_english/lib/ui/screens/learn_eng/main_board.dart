@@ -9,6 +9,9 @@ import 'data_json.dart';
 import '../../../configs/colors.dart';
 
 class LearnEngHomePage extends StatefulWidget {
+
+  static const String routeName = '/home';
+
   @override
   _LearnEngHomePageState createState() => _LearnEngHomePageState();
 }

@@ -1,0 +1,35 @@
+## Truyền tham số cho GetX route
+
+First Screen
+
+Get.to(() => SecondScreen(), arguments: [
+    {"first": 'First data'},
+    {"second": 'Second data'}
+]);
+Second screen
+
+class SecondScreenController extends GetxController {
+  dynamic argumentData = Get.arguments;
+
+  @override
+  void onInit() {
+    print(argumentData[0]['first']);
+    print(argumentData[1]['second']);
+    super.onInit();
+  }
+}
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## Chúng ta cũng có thể đặt Binding để tạo các phụ thuộc ngay khi ứng dụng khởi động, bằng cách khai báo nó là InitialBinding
+
+GetMaterialApp(
+  initialRoute: "/",
+  initialBinding: HomeBinding(), // here!
+);
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## Khai báo một biến kiêu List
+
+var lstTask = List<dynamic>.empty(growable: true).obs;

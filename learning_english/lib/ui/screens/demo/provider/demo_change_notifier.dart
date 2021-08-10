@@ -17,7 +17,7 @@ class DemoChangeNotifierProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<Counter>(
-      builder: (context) => Counter(),
+      create: (context) => Counter(),
       child: TestWidget(),
     );
   }

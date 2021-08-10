@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getx_impl/pages/detail/binding/detail_binding.dart';
-import 'package:getx_impl/pages/detail/view/detail.dart';
-import 'package:getx_impl/pages/home/binding/home_binding.dart';
-import 'package:getx_impl/pages/home/view/home.dart';
+import 'package:getx_pattern_1/pages/detail/binding/detail_binding.dart';
+import 'package:getx_pattern_1/pages/detail/view/detail.dart';
+import 'package:getx_pattern_1/pages/home/binding/home_binding.dart';
+import 'package:getx_pattern_1/pages/home/view/home.dart';
 
 void main() {
   runApp(MyApp());

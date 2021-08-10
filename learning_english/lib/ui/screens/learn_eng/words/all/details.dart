@@ -56,7 +56,7 @@ class _DetailsPageState extends State<DetailsPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                     Hero(
-                        tag: widget.word.id,
+                        tag: widget.word.id.toString(),
                         child: Text(widget.word.word,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -70,7 +70,7 @@ class _DetailsPageState extends State<DetailsPage> {
                     SizedBox(height: 10.0,),
                     Text(widget.word.pronounce, style: TextStyle(fontSize: 14.0, color: Colors.white),),
                     SizedBox(height: 10.0,),
-                    Text(widget.word.means, style: TextStyle(fontSize: 25.0, color: Colors.white),),
+                    Text(widget.word.mean, style: TextStyle(fontSize: 25.0, color: Colors.white),),
                   ]),
                 )),
             Container(

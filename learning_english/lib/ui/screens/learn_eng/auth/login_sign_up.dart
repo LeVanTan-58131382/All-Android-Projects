@@ -4,6 +4,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:learning_english/configs/colors.dart';
 import 'package:learning_english/core/dispatch_listener_event.dart';
 import 'package:learning_english/core/services/auth_service.dart';
+import 'package:provider/provider.dart';
 
 final kHintTextStyle = TextStyle(
   color: AppColors.backgroundColorDark,
@@ -28,12 +29,16 @@ final kBoxDecorationStyle = BoxDecoration(
   ],
 );
 
-class LoginScreen extends StatefulWidget {
+class AuthScreen extends StatefulWidget {
+  static const String routeName = '/auth';
+
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _AuthScreenState createState() => _AuthScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _AuthScreenState extends State<AuthScreen> {
+
+  late AuthService authService;
   String name = "";
   String email = "";
   String password = "";
@@ -41,11 +46,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool _signUp = false;
 
-  AuthService authService = new AuthService();
-
   final _formKey = GlobalKey<FormState>();
 
-  List<String> listValidationFailed = [];
+  List<dynamic> listValidationFailed = [];
 
   bool loginSuccessful = false;
   bool registerSuccessful = false;
@@ -54,16 +57,17 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
 
-    authService.init();
+    this.authService = new AuthService();
+    this.authService.init();
 
-    DispatchListenerEvent.listener("Login_Failed",
-        _buildNotificationForLoginFailed, "Login_Failed");
+    DispatchListenerEvent.listener(
+        "Login_Failed", _buildNotificationForLoginFailed, "Login_Failed");
     DispatchListenerEvent.listener("Register_Failed",
         _buildNotificationForRegisterFailed, "Register_Failed");
-    DispatchListenerEvent.listener("Login_Successful",
-        _markLoginSuccessful, "Login_Successful");
-    DispatchListenerEvent.listener("Register_Successful",
-        _markRegisterSuccessful, "Register_Successful");
+    DispatchListenerEvent.listener(
+        "Login_Successful", _markLoginSuccessful, "Login_Successful");
+    DispatchListenerEvent.listener(
+        "Register_Successful", _markRegisterSuccessful, "Register_Successful");
   }
 
   @override
@@ -81,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     // user = {"name": name, "email": email, "password": password, "password_confirmation": rePassword};
 
-    await authService.registerToServer(data: {
+    await this.authService.registerToServer(data: {
       "name": name,
       "email": email,
       "password": password,
@@ -94,36 +98,36 @@ class _LoginScreenState extends State<LoginScreen> {
 
     // user = {"email": email,  "password": password};
 
-    await authService
-        .loginToServer(data: {"email": email, "password": password});
+    await this.authService.loginToServer(data: {
+      "email": email,
+      "password": password});
   }
 
   _buildNotificationForLoginFailed(String messages) {
+    setState(() {
+      listValidationFailed.add("Đăng nhập thất bại");
 
-    listValidationFailed.add("Đăng nhập thất bại");
-
-    listValidationFailed.add(messages);
-
+      listValidationFailed.add(messages);
+    });
   }
 
-  _buildNotificationForRegisterFailed(List<String> messages) {
+  _buildNotificationForRegisterFailed(List<dynamic> messages) {
+    setState(() {
+      listValidationFailed.add("Đăng ký thất bại");
 
-    listValidationFailed.add("Đăng ký thất bại");
-
-    for(var i = 0; i < messages.length; i++){
-      listValidationFailed.add(messages[i]);
-    }
+      for (var i = 0; i < messages.length; i++) {
+        listValidationFailed.add(messages[i]);
+      }
+    });
   }
 
-  _markRegisterSuccessful(String temp)
-  {
+  _markRegisterSuccessful(String temp) {
     setState(() {
       registerSuccessful = true;
     });
   }
 
-  _markLoginSuccessful(String temp)
-  {
+  _markLoginSuccessful(String temp) {
     setState(() {
       loginSuccessful = true;
     });
@@ -182,7 +186,8 @@ class _LoginScreenState extends State<LoginScreen> {
         //   ],
         // ),
         child: Padding(
-          padding: const EdgeInsets.only(left: 8.0, top: 8.0, right: 8.0, bottom: 0.0),
+          padding: const EdgeInsets.only(
+              left: 8.0, top: 8.0, right: 8.0, bottom: 0.0),
           child: StaggeredGridView.countBuilder(
             padding: EdgeInsets.all(0),
             crossAxisCount: 1,
@@ -195,8 +200,8 @@ class _LoginScreenState extends State<LoginScreen> {
               return Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: Text(
-                              '${listValidationFailed[index]}',
-                    style: TextStyle(fontSize: 15, color: Colors.red),
+                  '${listValidationFailed[index]}',
+                  style: TextStyle(fontSize: 15, color: Colors.red),
                 ),
               );
             },
@@ -207,8 +212,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  _reset()
-  {
+  _reset() {
     setState(() {
       listValidationFailed = [];
       loginSuccessful = false;
@@ -589,9 +593,15 @@ class _LoginScreenState extends State<LoginScreen> {
                           height: 30,
                         ),
                         //_buildNotificationForLoginSuccessful(),
-                        loginSuccessful == true ? _buildNotificationForLoginSuccessful() : Container(),
-                        registerSuccessful == true ? _buildNotificationForRegisterSuccessful() : Container(),
-                        listValidationFailed.isNotEmpty ? _buildValidateFailed() : Container(),
+                        loginSuccessful == true
+                            ? _buildNotificationForLoginSuccessful()
+                            : Container(),
+                        registerSuccessful == true
+                            ? _buildNotificationForRegisterSuccessful()
+                            : Container(),
+                        listValidationFailed.isNotEmpty
+                            ? _buildValidateFailed()
+                            : Container(),
                         _signUp == false ? Container() : _buildUserNameTF(),
                         _buildEmailTF(),
                         _buildPasswordTF(),
@@ -609,6 +619,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ? GestureDetector(
                                 child: _buildSignUpBtn(),
                                 onTap: () {
+                                  this._reset();
                                   setState(() {
                                     print("bạn vừa bấm vào nút đăng ký");
                                     _signUp = !_signUp;
@@ -618,6 +629,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             : GestureDetector(
                                 child: _buildSignInBtn(),
                                 onTap: () {
+                                  this._reset();
                                   setState(() {
                                     print("bạn vừa bấm vào nút đăng nhập");
                                     _signUp = !_signUp;

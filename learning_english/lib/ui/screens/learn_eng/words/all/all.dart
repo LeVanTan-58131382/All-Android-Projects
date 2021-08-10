@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:learning_english/configs/colors.dart';
+import 'package:learning_english/core/services/word_service.dart';
 import 'package:learning_english/models/word.dart';
 import 'package:learning_english/ui/screens/learn_eng/words/components/chip_word_type.dart';
 import '../../data_json.dart';
@@ -17,6 +18,9 @@ class AllWordPage extends StatefulWidget {
 }
 
 class _AllWordPageState extends State<AllWordPage> {
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -175,18 +179,11 @@ class _AllWordPageState extends State<AllWordPage> {
   Word _mapWordFromDatabase(int index)
   {
     return new Word(
-      id: listWords[index]["id"].toString(),
+      id: listWords[index]["id"],
       word: listWords[index]["word"],
       pronounce: listWords[index]["pronounce"],
-      means: listWords[index]["means"],
-      nouns: listWords[index]["nouns"],
-      pronouns: listWords[index]["pronouns"],
-      adjectives: listWords[index]["adjectives"],
-      verbs: listWords[index]["verbs"],
-      adverbs: listWords[index]["adverbs"],
-      prepositions: listWords[index]["prepositions"],
-      conjunctions: listWords[index]["conjunctions"],
-      interjections: listWords[index]["interjections"],
+      mean: listWords[index]["means"],
+      partOfSpeech: listWords[index]["partOfSpeech"],
     );
   }
 
@@ -202,26 +199,26 @@ class _AllWordPageState extends State<AllWordPage> {
   // "conjunctions": 0,
   // "interjections": 0,
 
-    if(listWords[index]["nouns"] == true)
-    {
-      detail == false ? listChipWordType.add(chipWordType(type: "n", width: 40, height: 25)) : listChipWordType.add(chipWordType(type: "danh từ", width: 100, height: 25));
-    }
-    if(listWords[index]["verbs"] == true)
-    {
-      detail == false ? listChipWordType.add(chipWordType(type: "v", width: 40, height: 25)) : listChipWordType.add(chipWordType(type: "động từ", width: 100, height: 25));
-    }
-    if(listWords[index]["adjectives"] == true)
-    {
-      detail == false ? listChipWordType.add(chipWordType(type: "adj", width: 40, height: 25)) : listChipWordType.add(chipWordType(type: "tính từ", width: 100, height: 25));
-    }
-    if(listWords[index]["adverbs"] == true)
-    {
-      detail == false ? listChipWordType.add(chipWordType(type: "adv", width: 40, height: 25)) : listChipWordType.add(chipWordType(type: "trạng từ", width: 100, height: 25));
-    }
-    if(listWords[index]["prepositions"] == true)
-    {
-      detail == false ? listChipWordType.add(chipWordType(type: "pre", width: 40, height: 25)) : listChipWordType.add(chipWordType(type: "giới từ", width: 100, height: 25));
-    }
+    // if(listWords[index]["nouns"] == true)
+    // {
+    //   detail == false ? listChipWordType.add(chipWordType(type: "n", width: 40, height: 25)) : listChipWordType.add(chipWordType(type: "danh từ", width: 100, height: 25));
+    // }
+    // if(listWords[index]["verbs"] == true)
+    // {
+    //   detail == false ? listChipWordType.add(chipWordType(type: "v", width: 40, height: 25)) : listChipWordType.add(chipWordType(type: "động từ", width: 100, height: 25));
+    // }
+    // if(listWords[index]["adjectives"] == true)
+    // {
+    //   detail == false ? listChipWordType.add(chipWordType(type: "adj", width: 40, height: 25)) : listChipWordType.add(chipWordType(type: "tính từ", width: 100, height: 25));
+    // }
+    // if(listWords[index]["adverbs"] == true)
+    // {
+    //   detail == false ? listChipWordType.add(chipWordType(type: "adv", width: 40, height: 25)) : listChipWordType.add(chipWordType(type: "trạng từ", width: 100, height: 25));
+    // }
+    // if(listWords[index]["prepositions"] == true)
+    // {
+    //   detail == false ? listChipWordType.add(chipWordType(type: "pre", width: 40, height: 25)) : listChipWordType.add(chipWordType(type: "giới từ", width: 100, height: 25));
+    // }
 
     return listChipWordType;
     //return  Row(children: listChipWordType);

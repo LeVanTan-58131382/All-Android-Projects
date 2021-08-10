@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shopx/views/homepage.dart';
+import 'package:getx_pattern_2/views/homepage.dart';
 
 void main() {
   runApp(MyApp());
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({required this.title});
 
   final String title;
 
