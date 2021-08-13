@@ -14,10 +14,6 @@ class SearchVocabularyBinding extends Bindings
       Get.put(WordRepoImplement());
     }
 
-    if(!Get.isRegistered<AllVocabularyController>())
-    {
-      Get.put(AllVocabularyController());
-    }
 
     if(!Get.isRegistered<AllVocabularyController>())
       {

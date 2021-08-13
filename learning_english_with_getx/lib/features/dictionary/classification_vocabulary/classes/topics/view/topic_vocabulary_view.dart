@@ -1,247 +1,322 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
+import 'package:learning_english_with_getx/core/constants/app_contants.dart';
+import 'package:learning_english_with_getx/core/constants/app_style_constants.dart';
 import 'package:learning_english_with_getx/features/dictionary/classification_vocabulary/classes/topics/controller/topic_vocabulary_controller.dart';
 
-class TopicVocabularyView extends StatefulWidget
-{
-  @override
-  TopicVocabularyViewState createState() => new TopicVocabularyViewState();
-}
-
-class TopicVocabularyViewState extends State<TopicVocabularyView>
-{
-    late TopicVocabularyController topicController;
-
-    final CategoriesScroller categoriesScroller = CategoriesScroller();
-    ScrollController controller = ScrollController();
-    bool closeTopContainer = false;
-    double topContainer = 0;
-
-    List<Widget> itemsData = [];
-
-    void getPostsData(TopicVocabularyController controller) {
-      List<dynamic> responseList = controller.FOOD_DATA;
-      List<Widget> listItems = [];
-      responseList.forEach((post) {
-        listItems.add(Container(
-            height: 150,
-            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20.0)), color: Colors.white, boxShadow: [
-              BoxShadow(color: Colors.black.withAlpha(100), blurRadius: 10.0),
-            ]),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        post["name"],
-                        style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        post["brand"],
-                        style: const TextStyle(fontSize: 17, color: Colors.grey),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "\$ ${post["price"]}",
-                        style: const TextStyle(fontSize: 25, color: Colors.black, fontWeight: FontWeight.bold),
-                      )
-                    ],
-                  ),
-                  Image.asset(
-                    "assets/images/${post["image"]}",
-                    height: double.infinity,
-                  )
-                ],
-              ),
-            )));
-      });
-      setState(() {
-        itemsData = listItems;
-      });
-    }
-
-    @override
-    void initState() {
-      super.initState();
-      topicController = Get.find<TopicVocabularyController>();
-
-      getPostsData(topicController);
-      controller.addListener(() {
-
-        double value = controller.offset/119;
-
-        setState(() {
-          topContainer = value;
-          closeTopContainer = controller.offset > 50;
-        });
-      });
-    }
-
-    @override
-    Widget build(BuildContext context) {
-      final Size size = MediaQuery.of(context).size;
-      final double categoryHeight = size.height*0.30;
-      return SafeArea(
-        child: Scaffold(
-          backgroundColor: Colors.white,
-          appBar: AppBar(
-            elevation: 0,
-            backgroundColor: Colors.white,
-            leading: Icon(
-              Icons.menu,
-              color: Colors.black,
-            ),
-            actions: <Widget>[
-              IconButton(
-                icon: Icon(Icons.search, color: Colors.black),
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: Icon(Icons.person, color: Colors.black),
-                onPressed: () {},
-              )
-            ],
-          ),
-          body: Container(
-            height: size.height,
-            child: Column(
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Text(
-                      "Loyality Cards",
-                      style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 20),
-                    ),
-                    Text(
-                      "Menu",
-                      style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                AnimatedOpacity(
-                  duration: const Duration(milliseconds: 200),
-                  opacity: closeTopContainer?0:1,
-                  child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 200),
-                      width: size.width,
-                      alignment: Alignment.topCenter,
-                      height: closeTopContainer?0:categoryHeight,
-                      child: categoriesScroller),
-                ),
-                
-              ],
-            ),
-          ),
-        ),
-      );
-    }
-  }
-
-
-class CategoriesScroller extends StatelessWidget {
-  const CategoriesScroller();
+class TopicVocabularyView extends StatelessWidget {
+  int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
-    final double categoryHeight = MediaQuery.of(context).size.height * 0.30 - 50;
-    return SingleChildScrollView(
-      physics: BouncingScrollPhysics(),
-      scrollDirection: Axis.horizontal,
-      child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-        child: FittedBox(
-          fit: BoxFit.fill,
-          alignment: Alignment.topCenter,
-          child: Row(
-            children: <Widget>[
-              Container(
-                width: 150,
-                margin: EdgeInsets.only(right: 20),
-                height: categoryHeight,
-                decoration: BoxDecoration(color: Colors.orange.shade400, borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "Most\nFavorites",
-                        style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
+
+
+    return Scaffold(
+      backgroundColor: AppStyles.white,
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: AppStyles.black,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            // IconButton(
+            //     icon: SvgPicture.asset("assets/images/burger_icon.svg"),
+            //     onPressed: () {}),
+            Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                      image: AssetImage(
+                        "assets/images/profile_avatar_1.png",
                       ),
-                      SizedBox(
-                        height: 10,
+                      fit: BoxFit.fill),
+                )),
+          ],
+        ),
+      ),
+      body: getBody(),
+      // body: buildTopicList(),
+    );
+  }
+
+  Widget getBody() {
+    return Padding(
+      padding: EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 40),
+      child: ListView(children: <Widget>[
+        Text(
+          "Từ vựng theo chủ đề",
+          style: TextStyle(fontSize: 28, fontWeight: FontWeight.w600),
+        ),
+        SizedBox(
+          height: 15,
+        ),
+        Text(
+          "Tra cứu từ vựng theo chủ đề",
+          style: TextStyle(fontSize: 18),
+        ),
+        SizedBox(
+          height: 40,
+        ),
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+              "Chọn chủ đề ...",
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+            ),
+            Text(
+              "See All",
+              style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                  color: AppStyles.primary),
+            )
+          ],
+        ),
+        SizedBox(
+          height: 30,
+        ),
+        Container(
+            height: 250,
+            child: buildTopicList()),
+
+
+        // Container(
+        //   height: 250,
+        //     child: Expanded(child: buildTopicList(),)),
+
+        SizedBox(
+          height: 30,
+        ),
+
+        Container(
+            height: 50,
+            child: Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: AppStyles.kDefaultPadding),
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                      height: 35.0,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
                       ),
-                      Text(
-                        "20 Items",
-                        style: TextStyle(fontSize: 16, color: Colors.white),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: AppStyles.kDefaultPadding * 0.4),
+                      margin: EdgeInsets.only(
+                          right: AppStyles.kDefaultPadding * 0.5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(Icons.view_quilt_rounded),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-              Container(
-                width: 150,
-                margin: EdgeInsets.only(right: 20),
-                height: categoryHeight,
-                decoration: BoxDecoration(color: Colors.blue.shade400, borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                child: Container(
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
+
+                Expanded(child: buildWordCategories()),
+              ],
+            )),
+
+        // AnimatedOpacity(
+        //   duration: const Duration(milliseconds: 200),
+        //   opacity: closeTopContainer?0:1,
+        //   child: AnimatedContainer(
+        //       duration: const Duration(milliseconds: 200),
+        //       width: size.width,
+        //       alignment: Alignment.topCenter,
+        //       height: closeTopContainer?0:categoryHeight,
+        //       child: categoriesScroller),
+        // ),
+
+        SizedBox(
+          height: 50,
+        ),
+      ]),
+    );
+  }
+
+  buildTopicList() {
+    return Row(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemCount: AppConstants.banners.length,
+              itemBuilder: (BuildContext context, int index) => GestureDetector(
+                onTap: () {
+                  Get.toNamed("${AppConstants.banners[index]["url_name"]}");
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: AppConstants.banners[index]["color_theme"],
+                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                    ),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(
-                          "Newest",
-                          style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
+                        Padding(
+                          padding:
+                          const EdgeInsets.only(top: 25, right: 18, left: 18),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                AppConstants.banners[index]['title'],
+                                style: TextStyle(
+                                    color: AppStyles.whiteGrey,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              Text(
+                                AppConstants.banners[index]['sort_description'],
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: AppStyles.black.withOpacity(0.6)),
+                              )
+                            ],
+                          ),
                         ),
                         SizedBox(
                           height: 10,
                         ),
-                        Text(
-                          "20 Items",
-                          style: TextStyle(fontSize: 16, color: Colors.white),
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Container(
+                              width: (MediaQuery.of(context).size.width - 100) / 2,
+                              height: 100,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: AssetImage(
+                                          AppConstants.banners[index]['img']),
+                                      fit: BoxFit.fill),
+                                  borderRadius: BorderRadius.circular(5))),
                         ),
                       ],
                     ),
                   ),
                 ),
               ),
-              Container(
-                width: 150,
-                margin: EdgeInsets.only(right: 20),
-                height: categoryHeight,
-                decoration: BoxDecoration(color: Colors.lightBlueAccent.shade400, borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
+            ),
+          ),
+        ]
+    );
+  }
+
+  Widget buildWordCategories() {
+    return Padding(
+      padding: EdgeInsets.only(top: AppStyles.kDefaultPadding),
+      child: SizedBox(
+        height: 35,
+        child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: AppConstants.banners.length,
+            itemBuilder: (BuildContext context, int index) {
+              return GestureDetector(
+                onTap: () {
+                  this.selectedIndex = index;
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: AppStyles.backgroundColorDark,
+                  ),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: AppStyles.kDefaultPadding * 0.8),
+                  margin:
+                      EdgeInsets.only(right: AppStyles.kDefaultPadding * 0.5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(Icons.directions_run, color: AppStyles.white,),
+                      SizedBox(width: 5),
                       Text(
-                        "Super\nSaving",
-                        style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "20 Items",
-                        style: TextStyle(fontSize: 16, color: Colors.white),
+                        AppConstants.banners[index]["title"],
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: AppStyles.white,
+                            fontWeight: selectedIndex == index
+                                ? FontWeight.bold
+                                : FontWeight.w300),
                       ),
                     ],
                   ),
                 ),
+              );
+            }),
+      ),
+    );
+  }
+
+  Widget buildWordItemCategories(int index, BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Get.toNamed("${AppConstants.banners[index]["url_name"]}");
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 20),
+        child: Container(
+          decoration: BoxDecoration(
+            color: AppConstants.banners[index]["color_theme"],
+            borderRadius: BorderRadius.all(Radius.circular(5.0)),
+          ),
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(top: 25, right: 18, left: 18),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      AppConstants.banners[index]['title'],
+                      style: TextStyle(
+                          color: AppStyles.whiteGrey,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Text(
+                      AppConstants.banners[index]['sort_description'],
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: AppStyles.black.withOpacity(0.6)),
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Container(
+                    width: (MediaQuery.of(context).size.width - 100) / 2,
+                    height: 100,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image:
+                                AssetImage(AppConstants.banners[index]['img']),
+                            fit: BoxFit.fill),
+                        borderRadius: BorderRadius.circular(5))),
               ),
             ],
           ),

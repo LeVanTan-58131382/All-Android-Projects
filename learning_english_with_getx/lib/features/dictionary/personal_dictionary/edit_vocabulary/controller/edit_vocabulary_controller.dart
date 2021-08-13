@@ -6,10 +6,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:learning_english_with_getx/services/network/http_service_implement.dart';
 import 'package:path/path.dart';
 
-class CreateVocabularyController extends GetxController
+class EditVocabularyController extends GetxController
 {
 
-  // Dùng var chứ dùng RxBool thì bên view éo hiểu
+  late int wordId;
 
   RxBool isNoun = false.obs;
   RxBool isVerb = false.obs;
@@ -77,10 +77,15 @@ class CreateVocabularyController extends GetxController
     httpServiceImplement = Get.find<HttpServiceImplement>();
     httpServiceImplement.init();
 
+    dynamic argument = Get.arguments;
+    wordId = argument["wordId"];
+
+    print("wordId: $wordId");
+
     initUploadImages();
   }
 
-  void createVocabulary() async
+  void editVocabulary() async
   {
     try{
       showCreateCircleLoading();
@@ -131,7 +136,7 @@ class CreateVocabularyController extends GetxController
     var bytesEncode = Base64Encoder().convert(bytes);
 
 
-      ImageUploadModel uploadModel = new ImageUploadModel(
+    EditImageUploadModel uploadModel = new EditImageUploadModel(
           isUploaded: false,
           uploading: true,
           name: basename(pickedFile.path),
@@ -173,13 +178,13 @@ class CreateVocabularyController extends GetxController
   }
 }
 
-class ImageUploadModel {
+class EditImageUploadModel {
   bool isUploaded;
   bool uploading;
   String name;
   String imageFile;
 
-  ImageUploadModel({
+  EditImageUploadModel({
     required this.isUploaded,
     required this.uploading,
     required this.name,

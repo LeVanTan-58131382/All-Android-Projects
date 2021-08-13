@@ -25,16 +25,16 @@ class AppConstants {
       "url_name" : "all_word",
       "img" : "assets/images/all_word.png",
       "img_detail" : "assets/images/all_word.png",
-      "color_theme" : AppStyles.red
+      "color_theme" : AppStyles.GreenTeal
     },
     {
       "id": "2",
       "title" : "Chủ đề",
       "sort_description" : "8 chủ đề",
-      "url_name" : "all_word",
+      "url_name" : "topic",
       "img" : "assets/images/themes_word.png",
       "img_detail" : "assets/images/themes_word.png",
-      "color_theme" : AppStyles.purple
+      "color_theme" : AppStyles.backgroundColorBrow
     },
     {
       "id": "3",
@@ -43,7 +43,7 @@ class AppConstants {
       "url_name" : "all_word",
       "img" : "assets/images/word_types.png",
       "img_detail" : "assets/images/word_types.png",
-      "color_theme" : AppStyles.yellow
+      "color_theme" : AppStyles.backgroundColor_B_Green
     },
     {
       "id": "4",
@@ -52,7 +52,7 @@ class AppConstants {
       "url_name" : "all_word",
       "img" : "assets/images/word_family.png",
       "img_detail" : "assets/images/word_family.png",
-      "color_theme" : AppStyles.teal
+      "color_theme" : AppStyles.red
     },
   ];
 

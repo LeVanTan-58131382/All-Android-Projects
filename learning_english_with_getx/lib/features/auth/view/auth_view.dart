@@ -30,10 +30,10 @@ class AuthView extends StatelessWidget {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        AppStyles.backgroundColorBrow,
                         AppStyles.white,
+                        AppStyles.backgroundColorDark2,
                       ],
-                      stops: [0.1, 0.9],
+                      stops: [0.75, 0.9],
                     ),
                   ),
                 ),
@@ -53,7 +53,7 @@ class AuthView extends StatelessWidget {
                           Text(
                             controller.isLogin.isTrue ? 'Đăng nhập' : "Đăng ký",
                             style: TextStyle(
-                              color: Colors.white,
+                              color: AppStyles.backgroundColorDark,
                               fontFamily: 'OpenSans',
                               fontSize: 30.0,
                               fontWeight: FontWeight.bold,

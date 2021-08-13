@@ -3,12 +3,13 @@ import 'package:get/get.dart';
 import 'package:learning_english_with_getx/core/models/word_model.dart';
 import 'package:learning_english_with_getx/core/repositories/word/word_repo_implement.dart';
 
-class AllVocabularyController extends GetxController {
+class PersonalVocabularyController extends GetxController
+{
   late WordRepoImplement wordRepoImplement;
 
   RxBool isLoading = false.obs;
 
-  RxList<Word> words = <Word>[].obs;
+  late RxList<Word> words = <Word>[].obs;
 
   // For Pagination
   RxBool isDataProcessing = false.obs;
@@ -17,25 +18,15 @@ class AllVocabularyController extends GetxController {
   ScrollController scrollController = ScrollController();
   RxBool isMoreDataAvailable = true.obs;
 
-  RxList<String> filterValues =
-      ["Tất cả", "Danh từ", "Động từ", "Tính từ", "Trạng từ", "Giới từ"].obs;
-  RxString selectedFilterValue = "Tất cả".obs;
-
-  void onChangeFilterValue(String value) {
-    selectedFilterValue.value = value;
-  }
-
   @override
-  void onInit() async {
+  void onInit() async{
     // TODO: implement onInit
     super.onInit();
 
-    showLoading();
-
     wordRepoImplement = Get.find<WordRepoImplement>();
 
-    // kiểm tra dữ liệu đã được load trước đó hay chưa
-    if (words.isEmpty) {
+    if(words.isEmpty)
+    {
       await loadWords(); // lấy tất cả dữ liệu
     }
 
@@ -47,47 +38,51 @@ class AllVocabularyController extends GetxController {
   }
 
   loadWords() async {
+    // showLoading();
+
     final result = await wordRepoImplement.getWords();
 
-    if (result != null) {
+    if(result != null)
+    {
       words = result.obs;
+
     } else {
+
       print("Không có từng vựng để hiển thị!");
     }
+
+    // hideLoading();
   }
 
-  showLoading() {
-    isLoading.value = true;
-    print("true loading");
+  showLoading(){
+    isLoading.toggle();
   }
 
-  hideLoading() {
-    isLoading.value = false;
-    print("false loading");
+  hideLoading(){
+    isLoading.toggle();
   }
 
   // Fetch Data
   void getRealShowWords() {
     showLoading();
     try {
-      if (words.length > 20) {
+      if(words.length > 20)
+      {
         index.value += 20;
 
-        for (int i = 0; i < index.value; i++) {
+        for(int i = 0; i < index.value; i++)
+        {
           realShowWords.add(words[i]);
 
           print("${realShowWords[i].word} : $i");
         }
-        hideLoading();
+
       }
+      hideLoading();
     } catch (e) {
       showNotification("Không có từ vựng để hiển thị!");
       hideLoading();
     }
-
-    // Future.delayed(const Duration(milliseconds: 1000), () {
-    //   hideLoading();
-    // });
   }
 
   // For Pagination
@@ -101,19 +96,37 @@ class AllVocabularyController extends GetxController {
     });
   }
 
+  void getPersonalWordDetails(int id)
+  {
+    showNotification("Hiển thị chi tiết từ vựng");
+  }
+
+  void editPersonalWord(int id)
+  {
+    showNotification("Sửa từ vựng");
+  }
+
+  void deletePersonalWord(int id)
+  {
+    showNotification("Xóa từ vựng");
+  }
+
   // Get More data
   void getMoreWord() {
     try {
-      if (realShowWords.length < words.length) {
+      if(realShowWords.length < words.length) {
+
         isMoreDataAvailable(true);
 
-        for (int i = index.value; i < index.value + 20; i++) {
+        for(int i = index.value; i < index.value + 20; i++)
+        {
           realShowWords.add(words[i]);
 
           print("${realShowWords[i].word} : $i");
         }
 
         index.value += 20;
+
       } else {
         isMoreDataAvailable(false);
         showNotification("Hết dữ liệu để hiển thị!");
@@ -123,7 +136,8 @@ class AllVocabularyController extends GetxController {
     }
   }
 
-  showNotification(String message) {
+  showNotification(String message)
+  {
     Get.snackbar(
       "Thông báo",
       message,
@@ -136,7 +150,6 @@ class AllVocabularyController extends GetxController {
       duration: Duration(seconds: 4),
       isDismissible: true,
       dismissDirection: SnackDismissDirection.HORIZONTAL,
-      forwardAnimationCurve: Curves.easeOutBack,
-    );
+      forwardAnimationCurve: Curves.easeOutBack,);
   }
 }

@@ -1,6 +1,39 @@
 import 'package:flutter/material.dart';
 
 class AppStyles {
+  static const Color GreenTeal = Color(0xFF21BFBD);
+
+  static const Color backgroundColorGreen = Color(0xFF80985C);
+  static const Color backgroundColorPink = Color(0xFFFFE3E3);
+  static const Color backgroundColorBrow = Color(0xFFB79161);
+  static const Color backgroundColorDark = Color(0xFF253B4A);
+  static const Color backgroundColorDark2 = Color(0xFF4F4F4F);
+
+  static const Color backgroundColor_A_Black = Color(0xFF17181D);
+  static const Color backgroundColor_A_LightBlack = Color(0xFF292C35);
+  static const Color backgroundColor_A_Yellow = Color(0xFFE09145);
+  static const Color backgroundColor_A_LightYellow = Color(0xFFFCD9B8);
+
+  static const Color backgroundColor_B_Grey = Color(0xFF575A6C);
+  static const Color backgroundColor_B_Green = Color(0xFFB4C540);
+  static const Color backgroundColor_B_White = Color(0xFFE0E2D2);
+  static const Color backgroundColor_B_Blue = Color(0xFF3686C9);
+
+  static const Color backgroundColor_C_DeepGreen = Color(0xFF1F4E5A);
+  static const Color backgroundColor_C_Green = Color(0xFF029C8E);
+  static const Color backgroundColor_C_Yellow = Color(0xFFFFDB69);
+  static const Color backgroundColor_C_LightOrange = Color(0xFFFFA658);
+  static const Color backgroundColor_C_Orange = Color(0xFFEA5F40);
+
+  static const Color backgroundColor_D_DeepBlue = Color(0xFF002447);
+  static const Color backgroundColor_D_Cyan = Color(0xFF53D3D1);
+  static const Color backgroundColor_D_Orange = Color(0xFFFEB249);
+
+  static const Color backgroundColor_E_LightBlue = Color(0xFF9BD6FE);
+  static const Color backgroundColor_E_DeepBlue = Color(0xFF010165);
+  static const Color backgroundColor_E_Blue = Color(0xFF004FFE);
+  static const Color backgroundColor_E_Yellow = Color(0xFFFFC700);
+  static const Color backgroundColor_E_White = Color(0xFFFFFFFF);
 
   static const kPrimaryColor = Color(0xFF4F4F4F);
   static const kBackgroundColor = Color(0xFF333333);
@@ -39,8 +72,5 @@ class AppStyles {
   static const Color semiGrey = Color(0xFFbababa);
   static const Color violet = Color(0xD07038F8);
 
-  static const Color backgroundColorGreen = Color(0xFF80985C);
-  static const Color backgroundColorPink = Color(0xFFFFE3E3);
-  static const Color backgroundColorBrow = Color(0xFFB79161);
-  static const Color backgroundColorDark = Color(0xFF253B4A);
+
 }

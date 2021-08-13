@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:learning_english_with_getx/core/constants/app_style_constants.dart';
-import 'package:learning_english_with_getx/features/dictionary/personal_dictionary/create_vocabulary/controller/create_vocabulary_controller.dart';
+import 'package:learning_english_with_getx/features/dictionary/personal_dictionary/edit_vocabulary/controller/edit_vocabulary_controller.dart';
 
-class CreateVocabularyView extends StatelessWidget {
+class EditVocabularyView extends StatelessWidget {
   final _addExampleController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<CreateVocabularyController>();
+    final controller = Get.find<EditVocabularyController>();
 
     return Obx(() {
       return Scaffold(
@@ -45,7 +45,7 @@ class CreateVocabularyView extends StatelessWidget {
   }
 
   Widget buildBody(
-      CreateVocabularyController controller, BuildContext context) {
+      EditVocabularyController controller, BuildContext context) {
     return GestureDetector(
         onTap: () => Get.focusScope!.unfocus(),
         child: Container(
@@ -74,7 +74,7 @@ class CreateVocabularyView extends StatelessWidget {
                         ),
 
                         Text(
-                          "Tạo từ vựng mới",
+                          "Cập nhật từ vựng",
                           style: TextStyle(
                             color: AppStyles.backgroundColorDark,
                             fontFamily: 'OpenSans',
@@ -222,7 +222,7 @@ class CreateVocabularyView extends StatelessWidget {
         ));
   }
 
-  Card buildAddExample(CreateVocabularyController controller) {
+  Card buildAddExample(EditVocabularyController controller) {
     return Card(
       color: AppStyles.primary,
       child: IconButton(
@@ -278,7 +278,7 @@ class CreateVocabularyView extends StatelessWidget {
   }
 
   GridView buildUploadImages(
-      CreateVocabularyController controller, BuildContext context) {
+      EditVocabularyController controller, BuildContext context) {
     return GridView.count(
       shrinkWrap: true,
       crossAxisCount: 3,
@@ -286,10 +286,10 @@ class CreateVocabularyView extends StatelessWidget {
       children: List.generate(controller.images.length, (index) {
         //if (images[index] is ImageUploadModel) {
         print((controller.images[index]).runtimeType);
-        if (controller.images[index] is ImageUploadModel) {
-          ImageUploadModel uploadModel =
-              controller.images[index] as ImageUploadModel;
-          Uint8List bytesDecode = Base64Codec().decode(uploadModel.imageFile);
+        if (controller.images[index] is EditImageUploadModel) {
+          EditImageUploadModel editImageUploadModelploadModel =
+              controller.images[index] as EditImageUploadModel;
+          Uint8List bytesDecode = Base64Codec().decode(editImageUploadModelploadModel.imageFile);
           return GestureDetector(
             onTap: () {
               print("Mở ảnh ra");
@@ -339,7 +339,7 @@ class CreateVocabularyView extends StatelessWidget {
   }
 
   CheckboxListTile buildCheckWorkIsOtherType(
-      CreateVocabularyController controller) {
+      EditVocabularyController controller) {
     return CheckboxListTile(
       controlAffinity: ListTileControlAffinity.trailing,
       secondary: const Icon(Icons.view_headline),
@@ -355,7 +355,7 @@ class CreateVocabularyView extends StatelessWidget {
   }
 
   CheckboxListTile buildCheckWordIsAdverb(
-      CreateVocabularyController controller) {
+      EditVocabularyController controller) {
     return CheckboxListTile(
       controlAffinity: ListTileControlAffinity.trailing,
       secondary: const Icon(Icons.timer),
@@ -369,7 +369,7 @@ class CreateVocabularyView extends StatelessWidget {
   }
 
   CheckboxListTile buildCheckWordIsPreposition(
-      CreateVocabularyController controller) {
+      EditVocabularyController controller) {
     return CheckboxListTile(
       controlAffinity: ListTileControlAffinity.trailing,
       secondary: const Icon(Icons.account_tree_outlined),
@@ -383,7 +383,7 @@ class CreateVocabularyView extends StatelessWidget {
   }
 
   CheckboxListTile buildCheckWordIsAdjective(
-      CreateVocabularyController controller) {
+      EditVocabularyController controller) {
     return CheckboxListTile(
       controlAffinity: ListTileControlAffinity.trailing,
       secondary: const Icon(Icons.scatter_plot_outlined),
@@ -396,7 +396,7 @@ class CreateVocabularyView extends StatelessWidget {
     );
   }
 
-  CheckboxListTile buildCheckWordIsVerb(CreateVocabularyController controller) {
+  CheckboxListTile buildCheckWordIsVerb(EditVocabularyController controller) {
     return CheckboxListTile(
       controlAffinity: ListTileControlAffinity.trailing,
       secondary: const Icon(Icons.directions_run),
@@ -409,7 +409,7 @@ class CreateVocabularyView extends StatelessWidget {
     );
   }
 
-  CheckboxListTile buildCheckIsNoun(CreateVocabularyController controller) {
+  CheckboxListTile buildCheckIsNoun(EditVocabularyController controller) {
     return CheckboxListTile(
       secondary: const Icon(Icons.drive_file_rename_outline),
       title: const Text('Danh từ'),
@@ -422,7 +422,7 @@ class CreateVocabularyView extends StatelessWidget {
     );
   }
 
-  Padding buildWordMeanTF(CreateVocabularyController controller) {
+  Padding buildWordMeanTF(EditVocabularyController controller) {
     return Padding(
       padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
       child: Column(
@@ -468,7 +468,7 @@ class CreateVocabularyView extends StatelessWidget {
     );
   }
 
-  Padding buildWordPronounceTF(CreateVocabularyController controller) {
+  Padding buildWordPronounceTF(EditVocabularyController controller) {
     return Padding(
       padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
       child: Column(
@@ -513,7 +513,7 @@ class CreateVocabularyView extends StatelessWidget {
     );
   }
 
-  Padding buildWordNameTF(CreateVocabularyController controller) {
+  Padding buildWordNameTF(EditVocabularyController controller) {
     return Padding(
       padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
       child: Column(
@@ -709,7 +709,7 @@ class CreateVocabularyView extends StatelessWidget {
   }
 
   showMyAlertDialog(
-      BuildContext context, CreateVocabularyController controller, int index) {
+      BuildContext context, EditVocabularyController controller, int index) {
     // Create AlertDialog
     AlertDialog dialog = AlertDialog(
       title: Text("Tải ảnh lên"),

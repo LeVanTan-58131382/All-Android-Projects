@@ -40,7 +40,7 @@ class _AppDrawer extends State<AppDrawer> {
               icon: Icons.screen_search_desktop,
               text: 'Từ điển của tôi',
               onTap: () {
-                Get.toNamed("/create_word");
+                Get.toNamed("/personal_dictionary");
               },),
             Divider(),
             _createDrawerItem(

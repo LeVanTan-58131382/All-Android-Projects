@@ -17,10 +17,10 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppStyles.white,
+      backgroundColor: AppStyles.backgroundColorDark2,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: AppStyles.black,
+        backgroundColor: AppStyles.backgroundColorDark,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
@@ -52,14 +52,14 @@ class _HomePageState extends State<HomePage> {
         children: <Widget>[
           Text(
             "Chào bạn,",
-            style: TextStyle(fontSize: 28, fontWeight: FontWeight.w600),
+            style: TextStyle(fontSize: 28, fontWeight: FontWeight.w600, color: AppStyles.white),
           ),
           SizedBox(
             height: 15,
           ),
           Text(
             "Bạn đang tra cứu từ gì?",
-            style: TextStyle(fontSize: 18),
+            style: TextStyle(fontSize: 18, color: AppStyles.white),
           ),
           SizedBox(
             height: 40,
@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
           Container(
             height: 60,
             decoration: BoxDecoration(
-                color: AppStyles.grey, borderRadius: BorderRadius.circular(30)),
+                color: AppStyles.backgroundColor_E_LightBlue, borderRadius: BorderRadius.circular(30)),
             child: Center(
               child: Padding(
                 padding: const EdgeInsets.only(top: 5),
@@ -80,7 +80,7 @@ class _HomePageState extends State<HomePage> {
                       hintStyle: TextStyle(color: AppStyles.black.withOpacity(0.4)),
                       prefixIcon: Icon(
                         LineIcons.search,
-                        color: AppStyles.black.withOpacity(0.8),
+                        color: AppStyles.backgroundColor_E_DeepBlue.withOpacity(0.8),
                       )),
                 ),
               ),
@@ -94,7 +94,7 @@ class _HomePageState extends State<HomePage> {
             children: <Widget>[
               Text(
                 "Từ vựng theo...",
-                style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: AppStyles.white),
               ),
               Text(
                 "See All",

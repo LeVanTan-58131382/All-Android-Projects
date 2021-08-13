@@ -1,45 +1,31 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:learning_english_with_getx/core/constants/app_style_constants.dart';
 import 'package:learning_english_with_getx/features/dictionary/details_vocabulary/controller/details_vocabulary_controller.dart';
 
-class DetailsVocabularyView extends StatefulWidget
-{
-  @override
-  DetailsVocabularyViewState createState() => new DetailsVocabularyViewState();
-}
-
-class DetailsVocabularyViewState extends State<DetailsVocabularyView>
-{
-  // @override
-  // Widget build(BuildContext context) {
-  //   // TODO: implement build
-  //   final controller = Get.find<DetailsVocabularyController>();
-  //   return Container();
-  // }
-
+class DetailsVocabularyView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<DetailsVocabularyController>();
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
       backgroundColor: Color(0xFF7A9BEE),
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          icon: Icon(Icons.arrow_back_ios),
-          color: Colors.white,
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
+        elevation: 0,
+        backgroundColor: AppStyles.black,
         title: Text("Chi tiết"),
-        centerTitle: true,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.more_horiz),
-            onPressed: () {},
-            color: Colors.white,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: InkWell(
+                onTap: () {},
+                child: Icon(
+                  Icons.favorite,
+                  color: AppStyles.white,
+                  size: 35,
+                )),
           )
         ],
       ),
@@ -48,28 +34,43 @@ class DetailsVocabularyViewState extends State<DetailsVocabularyView>
           alignment: Alignment.topCenter,
           children: [
             Container(
+                color: Color(0xFF21BFBD),
                 alignment: Alignment.topLeft,
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 20.0, top: 10.0, right: 10.0, bottom: 10.0),
+                  padding: const EdgeInsets.only(
+                      left: 20.0, top: 10.0, right: 20.0, bottom: 10.0),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Hero(
                             tag: "widget.word.id.toString()",
-                            child: Text("widget.word.word",
+                            child: Text("School",
                                 style: TextStyle(
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w700,
                                   fontSize: 30.0,
-                                  color: Colors.white,
+                                  color: AppStyles.backgroundColor_C_DeepGreen,
                                 ))),
-                        SizedBox(height: 10.0,),
-                        Row(
-                          //children: widget.listWordType,
+                        SizedBox(
+                          height: 10.0,
                         ),
-                        SizedBox(height: 10.0,),
-                        //Text(widget.word.pronounce, style: TextStyle(fontSize: 14.0, color: Colors.white),),
-                        SizedBox(height: 10.0,),
-                        //Text(widget.word.mean, style: TextStyle(fontSize: 25.0, color: Colors.white),),
+                        Row(
+                            //children: widget.listWordType,
+                            ),
+                        SizedBox(
+                          height: 10.0,
+                        ),
+                        Text(
+                          "/Sờ cun/",
+                          style: TextStyle(fontSize: 18.0, color: AppStyles.backgroundColor_B_Grey),
+                        ),
+                        SizedBox(
+                          height: 10.0,
+                        ),
+                        Text(
+                          "Trường học Trường học Trường học Trường học Trường học Trường học Trường học Trường học ",
+                          style: TextStyle(fontSize: 25.0, color: Colors.white),
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ]),
                 )),
             Container(
@@ -82,7 +83,7 @@ class DetailsVocabularyViewState extends State<DetailsVocabularyView>
                     topLeft: Radius.circular(40.0),
                     topRight: Radius.circular(40.0),
                   ),
-                  color: Colors.white),
+                  color: AppStyles.white),
               child: SingleChildScrollView(
                 // padding: EdgeInsets.fromLTRB(
                 //     kDefaultPadding, 0.0, kDefaultPadding, kDefaultPadding),
@@ -90,19 +91,18 @@ class DetailsVocabularyViewState extends State<DetailsVocabularyView>
                 child: Container(
                   alignment: Alignment.topCenter,
                   height: MediaQuery.of(context).size.height * 0.6,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(40.0))),
                   child: DefaultTabController(
                     length: 4,
                     child: Scaffold(
                       backgroundColor: Colors.white,
                       appBar: AppBar(
-                        backgroundColor: Colors.white,
-                        // shape: ContinuousRectangleBorder(
-                        //   borderRadius: const BorderRadius.all(Radius.circular(40.0))
-                        // ),
+                        backgroundColor: AppStyles.backgroundColorDark,
                         shape: ContinuousRectangleBorder(
-                            borderRadius: const BorderRadius.only(
-                                topRight: Radius.circular(40.0),
-                                topLeft: Radius.circular(40.0))),
+                          borderRadius: const BorderRadius.all(Radius.circular(40.0))
+                        ),
+
                         automaticallyImplyLeading: false,
                         flexibleSpace: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -110,11 +110,8 @@ class DetailsVocabularyViewState extends State<DetailsVocabularyView>
                           children: [
                             TabBar(
                               isScrollable: true,
-                              labelColor: Colors.teal,
+                              labelColor: AppStyles.white,
                               tabs: [
-                                // Tab(icon: Icon(Icons.flight)),
-                                // Tab(icon: Icon(Icons.directions_transit)),
-                                // Tab(icon: Icon(Icons.directions_car)),
                                 Tab(
                                   text: "Nghĩa",
                                 ),
@@ -134,27 +131,39 @@ class DetailsVocabularyViewState extends State<DetailsVocabularyView>
                       ),
                       body: TabBarView(
                         children: [
-                          ListView(
-                            children: <Widget>[
-                              Container(
-                                height: 350,
-                                color: Colors.amber[600],
-                                child: const Center(child: Text('Entry A')),
-                              ),
-                              Container(
-                                height: 350,
-                                color: Colors.amber[500],
-                                child: const Center(child: Text('Entry B')),
-                              ),
-                              Container(
-                                height: 350,
-                                color: Colors.amber[100],
-                                child: const Center(child: Text('Entry C')),
-                              ),
-                            ],
+                          // Tab "Nghĩa"
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ListView(
+                              children: <Widget>[
+                                Container(
+                                  padding: EdgeInsets.all(15.0),
+                                  alignment: Alignment.topLeft,
+                                  height: 350,
+                                  color: Colors.amber[600],
+                                  child: Text('Entry A'),
+                                ),
+                                Container(
+                                  height: 350,
+                                  color: Colors.amber[500],
+                                  child: const Center(child: Text('Entry B')),
+                                ),
+                                Container(
+                                  height: 350,
+                                  color: Colors.amber[100],
+                                  child: const Center(child: Text('Entry C')),
+                                ),
+                              ],
+                            ),
                           ),
+
+                          // Tab "Phát âm"
                           Icon(Icons.directions_transit, size: 350),
+
+                          // Tab "Ví dụ"
                           Icon(Icons.directions_car, size: 350),
+
+                          // Tab "Ảnh"
                           Icon(Icons.directions_car, size: 350),
                         ],
                       ),
@@ -168,6 +177,4 @@ class DetailsVocabularyViewState extends State<DetailsVocabularyView>
       ),
     );
   }
-  
-  
 }
