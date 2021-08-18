@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -43,29 +44,35 @@ class AllVocabularyView extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text('${controller.selectedFilterValue}',
-                        style: TextStyle(
-                            // fontFamily: 'Montserrat',
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25.0)),
+                    ElasticInLeft(
+                      child: Text('${controller.selectedFilterValue}',
+                          style: TextStyle(
+                              // fontFamily: 'Montserrat',
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 25.0)),
+                    ),
                     SizedBox(width: 10.0),
-                    DropdownButton(
-                      hint: Text(
-                        'Chọn',
+                    ElasticInRight(
+                      child: DropdownButton(
+                        hint: Text(
+                          'Chọn',
+                        ),
+                        onChanged: (newValue) {
+                          controller.onChangeFilterValue(newValue.toString());
+                        },
+                        value: controller.selectedFilterValue.value,
+                        items: controller.filterValues.map((selectedType) {
+                          return DropdownMenuItem(
+                            child: ElasticIn(
+                              child: new Text(
+                                selectedType,
+                              ),
+                            ),
+                            value: selectedType,
+                          );
+                        }).toList(),
                       ),
-                      onChanged: (newValue) {
-                        controller.onChangeFilterValue(newValue.toString());
-                      },
-                      value: controller.selectedFilterValue.value,
-                      items: controller.filterValues.map((selectedType) {
-                        return DropdownMenuItem(
-                          child: new Text(
-                            selectedType,
-                          ),
-                          value: selectedType,
-                        );
-                      }).toList(),
                     ),
                   ],
                 ),
@@ -108,10 +115,15 @@ class AllVocabularyView extends StatelessWidget {
                                         print(
                                             "$index -- ${controller.realShowWords.length - 1} -- ${controller.isMoreDataAvailable.value}");
                                         return Center(
-                                            child: SpinKitCircle(
-                                                color: Colors.green));
+                                            child: JelloIn(
+                                              child: SpinKitCircle(
+                                                  color: Colors.green),
+                                            ));
                                       }
-                                      return buildWordItem(controller, index);
+
+                                      return FadeInRight(
+                                          delay: Duration(milliseconds: 200),
+                                          child: buildWordItem(controller, index));
                                     }))),
                   ],
                 ),
@@ -138,13 +150,13 @@ class AllVocabularyView extends StatelessWidget {
   }
 
   Widget buildWordItem(AllVocabularyController controller, int index) {
+
     return Column(children: [
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Column(children: [
           InkWell(
             onTap: () {
-              // Navigator.of(context).push(MaterialPageRoute(
-              //     builder: (context) => DetailsPage(word: _mapWordFromDatabase(index), listWordType: buildListChipWordType(index, true),)));
+
             },
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -186,15 +198,16 @@ class AllVocabularyView extends StatelessWidget {
               child: TextButton(
                 onPressed: () {
 
-                  Future.delayed(const Duration(milliseconds: 300), () {
-                    Get.toNamed("/detail_word",
-                        arguments: {"wordId": controller.words[index].id});
-                  });
+                  Get.toNamed("/detail_word",
+                      arguments: {"wordId": controller.words[index].id});
 
                 },
-                child: Center(
-                  child: Icon(Icons.arrow_forward_ios_outlined, color: AppStyles.backgroundColorDark,),
-                ),
+
+                child: FlipInX(
+                  delay: Duration(milliseconds: 300),
+                    child: Icon(Icons.arrow_forward_ios_outlined, color: AppStyles.backgroundColorDark,),
+                  ),
+
                 style: ButtonStyle(
                     overlayColor:
                     MaterialStateProperty.all(AppStyles.backgroundColor_D_Cyan),

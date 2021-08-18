@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:learning_english_with_getx/core/constants/app_style_constants.dart';
-
+import 'package:learning_english_with_getx/ui/screens/root/binding/root_binding.dart';
+import 'core/database/personal_vocabulary_images_db.dart';
 import 'features/auth/binding/auth_binding.dart';
 import 'features/auth/view/auth_view.dart';
+import 'features/auth/view/user_account_view.dart';
 import 'features/dictionary/all_vocabulary/binding/all_vocabulary_binding.dart';
 import 'features/dictionary/all_vocabulary/view/all_vocabulary_view.dart';
 import 'features/dictionary/classification_vocabulary/classes/topics/binding/topic_vocabulary_binding.dart';
@@ -21,15 +23,36 @@ import 'features/dictionary/personal_dictionary/personal_vocabulary/view/persona
 import 'features/dictionary/personal_dictionary/view/personal_dictionary_view.dart';
 import 'features/dictionary/search_vocabulary/binding/search_vocabulary_binding.dart';
 import 'features/dictionary/search_vocabulary/view/search_vocabulary_view.dart';
-import 'features/test/flutter_spinkit.dart';
-import 'ui/screens/home/home.dart';
-import 'ui/screens/root/root.dart';
+import 'ui/screens/root/view/root.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return MyAppState();
+  }
+
+}
+
+class MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+
+    // PersonalVocabularyDatabase.instance.close();
+  }
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -45,9 +68,11 @@ class MyApp extends StatelessWidget {
       getPages: [
         // first at all
         // GetPage(name: "/root", page: () => RootPage(), bindings: [AuthBinding(), AllVocabularyBinding()]),
-        GetPage(name: "/root", page: () => RootPage(), bindings: [ AuthBinding(), SearchVocabularyBinding()]),
+        GetPage(name: "/root", page: () => RootPage(), bindings: [ RootBinding(), AuthBinding(), SearchVocabularyBinding()]),
 
         GetPage(name: "/auth", page: () => AuthView(), binding: AuthBinding()),
+
+        GetPage(name: "/me", page: () => UserAccountView(), binding: AuthBinding()),
 
         GetPage(name: "/all_word", page: () => AllVocabularyView(), binding: AllVocabularyBinding()),
 

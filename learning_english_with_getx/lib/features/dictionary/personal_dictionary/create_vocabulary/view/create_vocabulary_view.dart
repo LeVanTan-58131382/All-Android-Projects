@@ -1,9 +1,13 @@
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:learning_english_with_getx/core/constants/app_style_constants.dart';
+import 'package:learning_english_with_getx/core/models/user_topic_model.dart';
 import 'package:learning_english_with_getx/features/dictionary/personal_dictionary/create_vocabulary/controller/create_vocabulary_controller.dart';
 
 class CreateVocabularyView extends StatelessWidget {
@@ -50,36 +54,37 @@ class CreateVocabularyView extends StatelessWidget {
         onTap: () => Get.focusScope!.unfocus(),
         child: Container(
           height: double.infinity,
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: buildMenu(),
-              ),
-
-              SizedBox(height: 20,),
-
-              Expanded(
-                child: SingleChildScrollView(
+          child: Column(children: [
+            Padding(
+              padding:
+                  const EdgeInsets.only(left: 20, right: 20, bottom: 0, top: 0),
+              child: buildMenu(),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                controller: controller.scrollController.value,
                 child: Form(
                   key: _formKey,
                   child: Padding(
-                    padding:
-                        EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                    padding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
                     child: Column(
                       children: [
-
                         SizedBox(
                           height: 20.0,
                         ),
 
-                        Text(
-                          "Tạo từ vựng mới",
-                          style: TextStyle(
-                            color: AppStyles.backgroundColorDark,
-                            fontFamily: 'OpenSans',
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold,
+                        ElasticIn(
+                          child: Text(
+                            "Tạo từ vựng mới",
+                            style: TextStyle(
+                              color: AppStyles.backgroundColorDark,
+                              fontFamily: 'OpenSans',
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
 
@@ -87,40 +92,11 @@ class CreateVocabularyView extends StatelessWidget {
                           height: 20.0,
                         ),
 
-                        buildWordNameTF(controller),
+                        ElasticInLeft(child: buildWordNameTF(controller)),
 
-                        buildWordPronounceTF(controller),
+                        ElasticInRight(child: buildWordPronounceTF(controller)),
 
-                        buildWordMeanTF(controller),
-
-                        Divider(),
-
-                        SizedBox(
-                          height: 20.0,
-                        ),
-
-                        Text(
-                          'Chọn từ loại cho từ vựng của bạn',
-                          style: TextStyle(
-                              fontSize: 16.0,
-                              color: AppStyles.backgroundColorDark,
-                              fontWeight: FontWeight.bold),
-                        ),
-
-                        SizedBox(
-                          height: 20.0,
-                        ),
-
-                        buildCheckIsNoun(controller),
-                        buildCheckWordIsVerb(controller),
-
-                        buildCheckWordIsAdjective(controller),
-
-                        buildCheckWordIsPreposition(controller),
-
-                        buildCheckWordIsAdverb(controller),
-
-                        buildCheckWorkIsOtherType(controller),
+                        ElasticInLeft(child: buildWordMeanTF(controller)),
 
                         Divider(),
 
@@ -128,12 +104,687 @@ class CreateVocabularyView extends StatelessWidget {
                           height: 20.0,
                         ),
 
-                        Text(
-                          'Chọn ảnh cho từ vựng của bạn',
-                          style: TextStyle(
-                              fontSize: 16.0,
-                              color: AppStyles.backgroundColorDark,
-                              fontWeight: FontWeight.bold),
+                        ElasticIn(
+                          child: Text(
+                            'Chọn từ loại cho từ vựng của bạn',
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                color: AppStyles.backgroundColorDark,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+
+                        SizedBox(
+                          height: 20.0,
+                        ),
+
+                        ZoomIn(
+                          child: Card(
+                            color: AppStyles.primary,
+                            child: IconButton(
+                              icon: Icon(Icons.open_in_new_rounded),
+                              onPressed: () {
+                                Get.focusScope!.unfocus();
+                                Get.defaultDialog(
+                                    title: 'Chọn từ loại',
+                                    titlePadding: EdgeInsets.all(10),
+                                    titleStyle: TextStyle(
+                                        fontSize: 16.0,
+                                        color: AppStyles.backgroundColorDark),
+                                    content: Obx(() {
+                                      return Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: ElasticIn(
+                                                  child: TextButton(
+                                                    onPressed: () {
+                                                      controller.checkNoun(
+                                                          !controller
+                                                              .isNoun.value);
+                                                    },
+                                                    child: Center(
+                                                      child: Text(
+                                                        'Danh từ',
+                                                        style:
+                                                            GoogleFonts.nunito(
+                                                          fontSize: 14,
+                                                          color: AppStyles
+                                                              .backgroundColorDark,
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    style: ButtonStyle(
+                                                        overlayColor:
+                                                            MaterialStateProperty.all(
+                                                                AppStyles
+                                                                    .lightGreen),
+                                                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius.circular(
+                                                                    50.0),
+                                                            side: BorderSide(
+                                                                color: controller
+                                                                            .isNoun
+                                                                            .value ==
+                                                                        true
+                                                                    ? AppStyles
+                                                                        .backgroundColorDark
+                                                                    : AppStyles
+                                                                        .white)))),
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: ElasticIn(
+                                                  child: TextButton(
+                                                    onPressed: () {
+                                                      controller.checkVerb(
+                                                          !controller
+                                                              .isVerb.value);
+                                                    },
+                                                    child: Center(
+                                                      child: Text(
+                                                        'Động từ',
+                                                        style:
+                                                            GoogleFonts.nunito(
+                                                          fontSize: 14,
+                                                          color: AppStyles
+                                                              .backgroundColorDark,
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    style: ButtonStyle(
+                                                        overlayColor:
+                                                            MaterialStateProperty.all(
+                                                                AppStyles
+                                                                    .lightGreen),
+                                                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius.circular(
+                                                                    50.0),
+                                                            side: BorderSide(
+                                                                color: controller
+                                                                            .isVerb
+                                                                            .value ==
+                                                                        true
+                                                                    ? AppStyles
+                                                                        .backgroundColorDark
+                                                                    : AppStyles
+                                                                        .white)))),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: ElasticIn(
+                                                  child: TextButton(
+                                                    onPressed: () {
+                                                      controller.checkAdjective(
+                                                          !controller
+                                                              .isAdjective
+                                                              .value);
+                                                    },
+                                                    child: Center(
+                                                      child: Text(
+                                                        'Tính từ',
+                                                        style:
+                                                            GoogleFonts.nunito(
+                                                          fontSize: 14,
+                                                          color: AppStyles
+                                                              .backgroundColorDark,
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    style: ButtonStyle(
+                                                        overlayColor:
+                                                            MaterialStateProperty.all(
+                                                                AppStyles
+                                                                    .lightGreen),
+                                                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius.circular(
+                                                                    50.0),
+                                                            side: BorderSide(
+                                                                color: controller
+                                                                            .isAdjective
+                                                                            .value ==
+                                                                        true
+                                                                    ? AppStyles
+                                                                        .backgroundColorDark
+                                                                    : AppStyles
+                                                                        .white)))),
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: ElasticIn(
+                                                  child: TextButton(
+                                                    onPressed: () {
+                                                      controller.checkAdverb(
+                                                          !controller
+                                                              .isAdverb.value);
+                                                    },
+                                                    child: Center(
+                                                      child: Text(
+                                                        'Trạng từ',
+                                                        style:
+                                                            GoogleFonts.nunito(
+                                                          fontSize: 14,
+                                                          color: AppStyles
+                                                              .backgroundColorDark,
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    style: ButtonStyle(
+                                                        overlayColor:
+                                                            MaterialStateProperty.all(
+                                                                AppStyles
+                                                                    .lightGreen),
+                                                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius.circular(
+                                                                    50.0),
+                                                            side: BorderSide(
+                                                                color: controller
+                                                                            .isAdverb
+                                                                            .value ==
+                                                                        true
+                                                                    ? AppStyles
+                                                                        .backgroundColorDark
+                                                                    : AppStyles
+                                                                        .white)))),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: ElasticIn(
+                                                  child: TextButton(
+                                                    onPressed: () {
+                                                      controller
+                                                          .checkPreposition(
+                                                              !controller
+                                                                  .isPreposition
+                                                                  .value);
+                                                    },
+                                                    child: Center(
+                                                      child: Text(
+                                                        'Giới từ',
+                                                        style:
+                                                            GoogleFonts.nunito(
+                                                          fontSize: 14,
+                                                          color: AppStyles
+                                                              .backgroundColorDark,
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    style: ButtonStyle(
+                                                        overlayColor:
+                                                            MaterialStateProperty.all(
+                                                                AppStyles
+                                                                    .lightGreen),
+                                                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius.circular(
+                                                                    50.0),
+                                                            side: BorderSide(
+                                                                color: controller
+                                                                            .isPreposition
+                                                                            .value ==
+                                                                        true
+                                                                    ? AppStyles
+                                                                        .backgroundColorDark
+                                                                    : AppStyles
+                                                                        .white)))),
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: ElasticIn(
+                                                  child: TextButton(
+                                                    onPressed: () {
+                                                      controller.checkOtherType(
+                                                          !controller
+                                                              .isOtherType
+                                                              .value);
+                                                    },
+                                                    child: Center(
+                                                      child: Text(
+                                                        'Khác',
+                                                        style:
+                                                            GoogleFonts.nunito(
+                                                          fontSize: 14,
+                                                          color: AppStyles
+                                                              .backgroundColorDark,
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    style: ButtonStyle(
+                                                        overlayColor:
+                                                            MaterialStateProperty.all(
+                                                                AppStyles
+                                                                    .lightGreen),
+                                                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius.circular(
+                                                                    50.0),
+                                                            side: BorderSide(
+                                                                color: controller
+                                                                            .isOtherType
+                                                                            .value ==
+                                                                        true
+                                                                    ? AppStyles
+                                                                        .backgroundColorDark
+                                                                    : AppStyles
+                                                                        .white)))),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          
+                                          SizedBox(
+                                            height: 30.0,
+                                          ),
+
+                                          ElasticIn(
+                                            child: TextButton(
+                                              onPressed: () {
+                                                if (controller.isNoun.value == false &&
+                                                    controller.isVerb.value ==
+                                                        false &&
+                                                    controller
+                                                        .isAdjective.value ==
+                                                        false &&
+                                                    controller.isAdverb.value ==
+                                                        false &&
+                                                    controller.isPreposition
+                                                        .value ==
+                                                        false &&
+                                                    controller
+                                                        .isOtherType.value ==
+                                                        false) {
+                                                  controller.showNotification(
+                                                      typeNoti: false,
+                                                      message:
+                                                      "Bạn chưa chọn từ loại!");
+                                                } else {
+                                                  Get.back();
+                                                }
+                                              },
+                                              child: Center(
+                                                child: Text(
+                                                  'Hoàn tất',
+                                                  style:
+                                                  GoogleFonts.nunito(
+                                                    fontSize: 14,
+                                                    color: AppStyles
+                                                        .backgroundColorDark,
+                                                    fontWeight:
+                                                    FontWeight.w700,
+                                                  ),
+                                                ),
+                                              ),
+                                              style: ButtonStyle(
+                                                  overlayColor:
+                                                  MaterialStateProperty.all(
+                                                      AppStyles
+                                                          .lightGreen),
+                                                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                                                      borderRadius:
+                                                      BorderRadius.circular(
+                                                          50.0),
+                                                      side: BorderSide(
+                                                          color: AppStyles
+                                                              .backgroundColorDark)))),
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    }),
+                                    radius: 10.0);
+                              },
+                            ),
+                          ),
+                        ),
+
+                        Divider(),
+
+                        SizedBox(
+                          height: 20.0,
+                        ),
+
+                        ElasticIn(
+                          child: Text(
+                            'Chọn chủ đề cho từ vựng của bạn',
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                color: AppStyles.backgroundColorDark,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+
+                        SizedBox(
+                          height: 20.0,
+                        ),
+
+                        ZoomIn(
+                            child: Card(
+                                color: AppStyles.primary,
+                                child: IconButton(
+                                    icon: Icon(Icons.open_in_new_rounded),
+                                    onPressed: () {
+                                      Get.focusScope!.unfocus();
+                                      Get.defaultDialog(
+                                          title: 'Chọn chủ đề',
+                                          titlePadding: EdgeInsets.all(10),
+                                          titleStyle: TextStyle(
+                                              fontSize: 16.0,
+                                              color: AppStyles
+                                                  .backgroundColorDark),
+                                          content: Obx(() {
+                                            return Padding(
+                                              padding: const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0, bottom: 10.0),
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  DropdownButton(
+                                                  hint: Text(
+                                                    'Chọn chủ đề',
+                                                  ),
+                                                  onChanged: (newValue) {
+                                                    controller
+                                                        .onChangeUserTopic(newValue as UserTopic);
+                                                    print(newValue.name);
+                                                  },
+                                                  // value: controller.selectedUserTopic.value.name,
+
+                                                  items:
+                                                  controller.userTopics.map((selectedUserTopic) {
+                                                    return DropdownMenuItem(
+                                                      child: new Text(
+                                                        selectedUserTopic.name,
+                                                        overflow: TextOverflow.ellipsis,
+                                                      ),
+                                                      value: selectedUserTopic,
+                                                    );
+                                                  }).toList(),
+                                                ),
+
+                                                  SizedBox(height: 30.0,),
+
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+
+                                                    children: [
+
+                                                      ElasticIn(
+                                                        child: TextButton(
+                                                          onPressed: () {
+                                                              Get.back();
+                                                          },
+                                                          child: Center(
+                                                            child: Text(
+                                                              'Hoàn tất',
+                                                              style:
+                                                              GoogleFonts.nunito(
+                                                                fontSize: 14,
+                                                                color: AppStyles
+                                                                    .backgroundColorDark,
+                                                                fontWeight:
+                                                                FontWeight.w700,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          style: ButtonStyle(
+                                                              overlayColor:
+                                                              MaterialStateProperty.all(
+                                                                  AppStyles
+                                                                      .lightGreen),
+                                                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                  BorderRadius.circular(
+                                                                      50.0),
+                                                                  side: BorderSide(
+                                                                      color: AppStyles
+                                                                          .backgroundColorDark)))),
+                                                        ),
+                                                      ),
+
+                                                      SizedBox(width: 20.0,),
+
+                                                      ElasticIn(
+                                                      child: TextButton(
+                                                        onPressed: () {
+
+                                                          final _addTopicController = TextEditingController();
+
+                                                          Get.defaultDialog(
+                                                              title: 'Thêm chủ đề',
+                                                              titleStyle: GoogleFonts.nunito(
+                                                                fontSize: 16,
+                                                                color: AppStyles
+                                                                    .backgroundColorDark,
+                                                                fontWeight:
+                                                                FontWeight.w700,
+                                                              ),
+                                                              content: Padding(
+                                                                padding: const EdgeInsets.only(top: 15.0, left: 10.0, right: 10.0, bottom: 15.0),
+                                                                child: Column(
+                                                                  mainAxisSize: MainAxisSize.min,
+                                                                  children: [
+                                                                    TextField(
+                                                                      controller: _addTopicController,
+                                                                      keyboardType: TextInputType.text,
+                                                                      maxLines: 1,
+                                                                      decoration: InputDecoration(
+                                                                        focusedBorder: OutlineInputBorder(
+                                                                            borderSide: BorderSide(color: AppStyles.backgroundColor_D_Cyan, width: 3.0)),
+                                                                        border: OutlineInputBorder(
+                                                                            borderSide:
+                                                                            BorderSide(color: AppStyles.backgroundColorDark)),
+                                                                        hintText: 'Nhập tên chủ đề',
+                                                                        labelStyle: kLabelStyle,
+                                                                        prefixText: ' ',
+                                                                      ),
+                                                                    ),
+
+                                                                    SizedBox(
+                                                                      height: 20.0,
+                                                                    ),
+
+                                                                    controller.isLoadingCreateTopic.value == true ? BounceInUp(child: SpinKitCircle(color: Colors.red)) : Container(),
+
+                                                                    SizedBox(
+                                                                      height: 20.0,
+                                                                    ),
+
+                                                                    Row(
+                                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                                      children: [
+                                                                        ElasticIn(
+                                                                          child: TextButton(
+                                                                            onPressed: () {
+                                                                              if (_addTopicController.text.isNotEmpty) {
+
+                                                                                controller.addTopic(_addTopicController.text);
+                                                                                _addTopicController.text = "";
+
+                                                                              } else {
+                                                                                controller.showNotification(
+                                                                                    typeNoti: false,
+                                                                                    message: "Bạn chưa nhập tên chủ đề");
+                                                                              }
+                                                                            },
+                                                                            child: Center(
+                                                                              child: Text(
+                                                                                'Thêm',
+                                                                                style:
+                                                                                GoogleFonts.nunito(
+                                                                                  fontSize: 14,
+                                                                                  color: AppStyles
+                                                                                      .backgroundColorDark,
+                                                                                  fontWeight:
+                                                                                  FontWeight.w700,
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            style: ButtonStyle(
+                                                                                overlayColor:
+                                                                                MaterialStateProperty.all(
+                                                                                    AppStyles
+                                                                                        .lightGreen),
+                                                                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                                                                                    borderRadius:
+                                                                                    BorderRadius.circular(
+                                                                                        50.0),
+                                                                                    side: BorderSide(
+                                                                                        color: AppStyles
+                                                                                            .backgroundColorDark)))),
+                                                                          ),
+                                                                        ),
+
+                                                                        SizedBox(width: 30.0,),
+
+                                                                        ElasticIn(
+                                                                          child: TextButton(
+                                                                            onPressed: () {
+                                                                              Get.back();
+                                                                            },
+                                                                            child: Center(
+                                                                              child: Text(
+                                                                                'Đóng',
+                                                                                style:
+                                                                                GoogleFonts.nunito(
+                                                                                  fontSize: 14,
+                                                                                  color: AppStyles
+                                                                                      .backgroundColorDark,
+                                                                                  fontWeight:
+                                                                                  FontWeight.w700,
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            style: ButtonStyle(
+                                                                                overlayColor:
+                                                                                MaterialStateProperty.all(
+                                                                                    AppStyles
+                                                                                        .lightGreen),
+                                                                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                                                                                    borderRadius:
+                                                                                    BorderRadius.circular(
+                                                                                        50.0),
+                                                                                    side: BorderSide(
+                                                                                        color: AppStyles
+                                                                                            .backgroundColorDark)))),
+                                                                          ),
+                                                                        ),
+                                                                      ]
+                                                                    )
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              radius: 10.0);
+                                                        },
+                                                        child: Center(
+                                                          child: Text(
+                                                            'Thêm chủ đề',
+                                                            style:
+                                                            GoogleFonts.nunito(
+                                                              fontSize: 14,
+                                                              color: AppStyles
+                                                                  .backgroundColorDark,
+                                                              fontWeight:
+                                                              FontWeight.w700,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        style: ButtonStyle(
+                                                            overlayColor:
+                                                            MaterialStateProperty.all(
+                                                                AppStyles
+                                                                    .lightGreen),
+                                                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                BorderRadius.circular(
+                                                                    50.0),
+                                                                side: BorderSide(
+                                                                    color: AppStyles
+                                                                        .backgroundColorDark)))),
+                                                      ),
+                                                    ),
+                                                      ]
+                                                  ),
+                                            ]
+                                              ),
+                                            );
+                                          }
+                                          )
+                                      );
+                                    }
+                                    )
+                            )
+                        ),
+
+
+
+                        SizedBox(
+                          height: 20.0,
+                        ),
+
+                        Center(
+                          child: Text(
+                              "Đang chọn: ${controller.selectedUserTopic.value.name}"),
+                        ),
+
+                        SizedBox(
+                          height: 20.0,
+                        ),
+
+                        Divider(),
+
+                        ElasticIn(
+                          child: Text(
+                            'Chọn ảnh cho từ vựng của bạn',
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                color: AppStyles.backgroundColorDark,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
 
                         SizedBox(
@@ -149,12 +800,14 @@ class CreateVocabularyView extends StatelessWidget {
                           height: 20.0,
                         ),
 
-                        Text(
-                          'Ví dụ cho từ vựng của bạn',
-                          style: TextStyle(
-                              fontSize: 16.0,
-                              color: AppStyles.backgroundColorDark,
-                              fontWeight: FontWeight.bold),
+                        ElasticIn(
+                          child: Text(
+                            'Ví dụ cho từ vựng của bạn',
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                color: AppStyles.backgroundColorDark,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
 
                         SizedBox(
@@ -166,7 +819,17 @@ class CreateVocabularyView extends StatelessWidget {
                             scrollDirection: Axis.vertical,
                             itemCount: controller.listExample.length,
                             itemBuilder: (BuildContext context, int index) {
-                              return Text(controller.listExample[index]);
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  controller.listExample[index],
+                                  style: GoogleFonts.nunito(
+                                    fontSize: 15,
+                                    color: AppStyles.backgroundColorDark,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              );
                             }),
 
                         buildAddExample(controller),
@@ -178,13 +841,20 @@ class CreateVocabularyView extends StatelessWidget {
                           height: 60,
                           width: double.infinity,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(50.0)),
                           ),
                           child: TextButton(
                             onPressed: () {
-                              print("aaaaa");
                               if (_formKey.currentState!.validate()) {
-                                // Get.focusScope!.unfocus();
+                                Get.focusScope!.unfocus();
+                                controller.createVocabulary();
+                                // controller.createVocabularyWithFile();
+                                // controller.createVocabularyWithDio();
+                              } else {
+                                controller.showNotification(
+                                    typeNoti: false,
+                                    message: "Bạn chưa nhập thông tin!");
                               }
                             },
                             child: Center(
@@ -201,24 +871,24 @@ class CreateVocabularyView extends StatelessWidget {
                             ),
                             style: ButtonStyle(
                                 overlayColor: MaterialStateProperty.all(
-                                    AppStyles.backgroundColorBrow),
+                                    AppStyles.backgroundColor_D_Cyan),
                                 shape: MaterialStateProperty.all<
                                         RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(50.0),
+                                        borderRadius:
+                                            BorderRadius.circular(50.0),
                                         side: BorderSide(
-                                            color:
-                                                AppStyles.backgroundColorDark)))),
+                                            color: AppStyles
+                                                .backgroundColorDark)))),
                           ),
                         ),
                       ],
                     ),
                   ),
                 ),
-            ),
               ),
-      ]
-          ),
+            ),
+          ]),
         ));
   }
 
@@ -228,6 +898,7 @@ class CreateVocabularyView extends StatelessWidget {
       child: IconButton(
         icon: Icon(Icons.add),
         onPressed: () {
+          Get.focusScope!.unfocus();
           Get.defaultDialog(
               title: '',
               content: Column(
@@ -284,41 +955,39 @@ class CreateVocabularyView extends StatelessWidget {
       crossAxisCount: 3,
       childAspectRatio: 1,
       children: List.generate(controller.images.length, (index) {
-        //if (images[index] is ImageUploadModel) {
-        print((controller.images[index]).runtimeType);
-        if (controller.images[index] is ImageUploadModel) {
-          ImageUploadModel uploadModel =
-              controller.images[index] as ImageUploadModel;
-          Uint8List bytesDecode = Base64Codec().decode(uploadModel.imageFile);
+        if (controller.images[index] != "photo_upload_button") {
           return GestureDetector(
             onTap: () {
               print("Mở ảnh ra");
             },
-            child: Card(
-              clipBehavior: Clip.antiAlias,
-              child: Stack(
-                children: <Widget>[
-                  Center(
-                    child: Image.memory(
-                      bytesDecode,
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                  Positioned(
-                    right: 5,
-                    top: 5,
-                    child: InkWell(
-                      child: Icon(
-                        Icons.remove_circle,
-                        size: 20,
-                        color: Colors.red,
+            child: Bounce(
+              child: Card(
+                clipBehavior: Clip.antiAlias,
+                child: Stack(
+                  children: <Widget>[
+                    Center(
+                      child: Image.memory(
+                        Base64Codec().decode(controller.images[index]),
+                        fit: BoxFit.fill,
                       ),
-                      onTap: () {
-                        controller.images.removeAt(index);
-                      },
                     ),
-                  ),
-                ],
+                    Positioned(
+                      right: 5,
+                      top: 5,
+                      child: InkWell(
+                        child: Icon(
+                          Icons.remove_circle,
+                          size: 20,
+                          color: Colors.red,
+                        ),
+                        onTap: () {
+                          controller.images.removeAt(index);
+                          controller.listImage.removeAt(index);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           );
@@ -328,97 +997,15 @@ class CreateVocabularyView extends StatelessWidget {
             child: IconButton(
               icon: Icon(Icons.add),
               onPressed: () {
+                Get.focusScope!.unfocus();
                 // _onAddImageClick(index);
-                showMyAlertDialog(context, controller, index);
+                // showMyAlertDialog(context, controller, index);
+                showUploadImageDialog(context, controller, index);
               },
             ),
           );
         }
       }),
-    );
-  }
-
-  CheckboxListTile buildCheckWorkIsOtherType(
-      CreateVocabularyController controller) {
-    return CheckboxListTile(
-      controlAffinity: ListTileControlAffinity.trailing,
-      secondary: const Icon(Icons.view_headline),
-      title: const Text('Loại từ khác'),
-      subtitle: Text('[...]'),
-      value: controller.isOtherType.value,
-      // value: true,
-      onChanged: (value) {
-        print(value);
-        controller.checkOtherType(value as bool);
-      },
-    );
-  }
-
-  CheckboxListTile buildCheckWordIsAdverb(
-      CreateVocabularyController controller) {
-    return CheckboxListTile(
-      controlAffinity: ListTileControlAffinity.trailing,
-      secondary: const Icon(Icons.timer),
-      title: const Text('Trạng từ'),
-      subtitle: Text('[adv]'),
-      value: controller.isAdverb.value,
-      onChanged: (value) {
-        controller.checkAdverb(value as bool);
-      },
-    );
-  }
-
-  CheckboxListTile buildCheckWordIsPreposition(
-      CreateVocabularyController controller) {
-    return CheckboxListTile(
-      controlAffinity: ListTileControlAffinity.trailing,
-      secondary: const Icon(Icons.account_tree_outlined),
-      title: const Text('Giới từ'),
-      subtitle: Text('[pre]'),
-      value: controller.isPreposition.value,
-      onChanged: (value) {
-        controller.checkPreposition(value as bool);
-      },
-    );
-  }
-
-  CheckboxListTile buildCheckWordIsAdjective(
-      CreateVocabularyController controller) {
-    return CheckboxListTile(
-      controlAffinity: ListTileControlAffinity.trailing,
-      secondary: const Icon(Icons.scatter_plot_outlined),
-      title: const Text('Tính từ'),
-      subtitle: Text('[adj]'),
-      value: controller.isAdjective.value,
-      onChanged: (value) {
-        controller.checkAdjective(value as bool);
-      },
-    );
-  }
-
-  CheckboxListTile buildCheckWordIsVerb(CreateVocabularyController controller) {
-    return CheckboxListTile(
-      controlAffinity: ListTileControlAffinity.trailing,
-      secondary: const Icon(Icons.directions_run),
-      title: const Text('Động từ'),
-      subtitle: Text('[v]'),
-      value: controller.isVerb.value,
-      onChanged: (value) {
-        controller.checkVerb(value as bool);
-      },
-    );
-  }
-
-  CheckboxListTile buildCheckIsNoun(CreateVocabularyController controller) {
-    return CheckboxListTile(
-      secondary: const Icon(Icons.drive_file_rename_outline),
-      title: const Text('Danh từ'),
-      subtitle: Text('[n]'),
-      value: controller.isNoun.value,
-      onChanged: (value) {
-        print(value);
-        controller.checkNoun(value as bool);
-      },
     );
   }
 
@@ -708,23 +1295,28 @@ class CreateVocabularyView extends StatelessWidget {
     );
   }
 
-  showMyAlertDialog(
+  showUploadImageDialog(
       BuildContext context, CreateVocabularyController controller, int index) {
-    // Create AlertDialog
-    AlertDialog dialog = AlertDialog(
-      title: Text("Tải ảnh lên"),
-      content: Text("Bạn muốn chọn ảnh từ ?"),
-      actions: [
-        Row(
+    Get.defaultDialog(
+        title: 'Bạn muốn chọn ảnh từ',
+        titlePadding: EdgeInsets.all(10),
+        titleStyle:
+            TextStyle(fontSize: 16.0, color: AppStyles.backgroundColorDark),
+        content: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             Column(children: [
               FloatingActionButton(
+                backgroundColor: AppStyles.backgroundColorDark,
                 onPressed: () {
-                  controller.onAddImageClick(index, ImageSource.camera);
+                  controller.onAddImage(index, ImageSource.camera);
+                  // controller.onAddImageClick(index, ImageSource.camera);
                 },
                 tooltip: "Máy ảnh",
-                child: Icon(Icons.add_a_photo),
+                child: Icon(
+                  Icons.add_a_photo,
+                  color: AppStyles.white,
+                ),
               ),
               SizedBox(
                 height: 10,
@@ -733,11 +1325,16 @@ class CreateVocabularyView extends StatelessWidget {
             ]),
             Column(children: [
               FloatingActionButton(
+                backgroundColor: AppStyles.backgroundColorDark,
                 onPressed: () {
-                  controller.onAddImageClick(index, ImageSource.gallery);
+                  controller.onAddImage(index, ImageSource.gallery);
+                  // controller.onAddImageClick(index, ImageSource.gallery);
                 },
                 tooltip: "Thư viện ảnh",
-                child: Icon(Icons.camera_alt),
+                child: Icon(
+                  Icons.camera_alt,
+                  color: AppStyles.white,
+                ),
               ),
               SizedBox(
                 height: 10,
@@ -746,39 +1343,7 @@ class CreateVocabularyView extends StatelessWidget {
             ]),
           ],
         ),
-      ],
-    );
-
-    void getFileImage(int index) async {
-//    var dir = await path_provider.getTemporaryDirectory();
-
-      // _imageFile.then((file) async {
-      //   setState(() {
-      //     ImageUploadModel imageUpload = new ImageUploadModel();
-      //     imageUpload.isUploaded = false;
-      //     imageUpload.uploading = false;
-      //     imageUpload.imageFile = file;
-      //     imageUpload.imageUrl = '';
-      //     images.replaceRange(index, index + 1, [imageUpload]);
-      //   });
-      // });
-    }
-
-    // Call showDialog function to show dialog.
-    Future<dynamic> futureValue = showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return dialog;
-        });
-    Stream stream = futureValue.asStream();
-    stream.listen((dynamic data) {
-      String answerValue = data;
-
-    }, onDone: () {
-      print("Done!");
-    }, onError: (error) {
-      print("Error! " + error.toString());
-    });
+        radius: 8);
   }
 }
 

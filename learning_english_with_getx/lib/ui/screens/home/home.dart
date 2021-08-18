@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
@@ -24,9 +25,6 @@ class _HomePageState extends State<HomePage> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
-            // IconButton(
-            //     icon: SvgPicture.asset("assets/images/burger_icon.svg"),
-            //     onPressed: () {}),
             Container(
                 width: 50,
                 height: 50,
@@ -42,75 +40,83 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       body: getBody(),
+      // drawer: FadeInLeft(child: AppDrawer()),
       drawer: AppDrawer(),
     );
   }
 
   Widget getBody() {
-    return ListView(
-        padding: EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 40),
-        children: <Widget>[
-          Text(
-            "Chào bạn,",
-            style: TextStyle(fontSize: 28, fontWeight: FontWeight.w600, color: AppStyles.white),
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          Text(
-            "Bạn đang tra cứu từ gì?",
-            style: TextStyle(fontSize: 18, color: AppStyles.white),
-          ),
-          SizedBox(
-            height: 40,
-          ),
-          Container(
-            height: 60,
-            decoration: BoxDecoration(
-                color: AppStyles.backgroundColor_E_LightBlue, borderRadius: BorderRadius.circular(30)),
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 5),
-                child: TextField(
-                  controller: _searchController,
-                  cursorColor: AppStyles.black,
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: "Nhập từ cần tra cứu",
-                      hintStyle: TextStyle(color: AppStyles.black.withOpacity(0.4)),
-                      prefixIcon: Icon(
-                        LineIcons.search,
-                        color: AppStyles.backgroundColor_E_DeepBlue.withOpacity(0.8),
-                      )),
+    return GestureDetector(
+      onTap: () => Get.focusScope!.unfocus(),
+      child: ListView(
+          padding: EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 40),
+          children: <Widget>[
+            Text(
+              "Chào bạn,",
+              style: TextStyle(fontSize: 28, fontWeight: FontWeight.w600, color: AppStyles.white),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Text(
+              "Bạn đang tra cứu từ gì?",
+              style: TextStyle(fontSize: 18, color: AppStyles.white),
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            Container(
+              height: 60,
+              decoration: BoxDecoration(
+                  color: AppStyles.backgroundColor_E_LightBlue, borderRadius: BorderRadius.circular(30)),
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 5),
+                  child: TextField(
+                    controller: _searchController,
+                    cursorColor: AppStyles.black,
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: "Nhập từ cần tra cứu",
+                        hintStyle: TextStyle(color: AppStyles.black.withOpacity(0.4)),
+                        prefixIcon: Swing(
+                          infinite: true,
+                          child: Icon(
+                            LineIcons.search,
+                            size: 22.0,
+                            color: AppStyles.backgroundColorDark,
+                          ),
+                        )),
+                  ),
                 ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 40,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                "Từ vựng theo...",
-                style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: AppStyles.white),
-              ),
-              Text(
-                "See All",
-                style: TextStyle(
-                    fontSize: 17, fontWeight: FontWeight.bold, color: AppStyles.primary),
-              )
-            ],
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          buildWordCategories(),
-          SizedBox(
-            height: 50,
-          ),
-        ]);
+            SizedBox(
+              height: 40,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  "Từ vựng theo...",
+                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: AppStyles.white),
+                ),
+                Text(
+                  "See All",
+                  style: TextStyle(
+                      fontSize: 17, fontWeight: FontWeight.bold, color: AppStyles.primary),
+                )
+              ],
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            buildWordCategories(),
+            SizedBox(
+              height: 50,
+            ),
+          ]),
+    );
   }
 
   Widget buildWordCategories() {

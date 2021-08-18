@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
@@ -38,110 +39,118 @@ class SearchVocabularyView extends StatelessWidget {
             ],
           ),
         ),
-        body: Padding(
-          padding: const EdgeInsets.only(
-              left: AppStyles.kDefaultPadding * 1.5,
-              right: AppStyles.kDefaultPadding * 1.5,
-              top: 10.0),
-          child: ListView(
-              children: <Widget>[
-            Container(
-              height: 60,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: AppStyles.grey,
-                  borderRadius: BorderRadius.circular(30)),
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 5),
-                  child: TextField(
-                    controller: _searchController,
-                    cursorColor: AppStyles.black,
-                    decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: "Nhập từ cần tra cứu",
-                        hintStyle: TextStyle(
-                            color: AppStyles.black.withOpacity(0.4)),
-                        prefixIcon: Icon(
-                          LineIcons.search,
-                          color: AppStyles.black.withOpacity(0.8),
-                        )),
-                    onChanged: (value) {
-                      controller.searchExpectedWords(value);
-                    },
+        body: GestureDetector(
+          onTap: () => Get.focusScope!.unfocus(),
+          child: Padding(
+            padding: const EdgeInsets.only(
+                left: AppStyles.kDefaultPadding * 1.5,
+                right: AppStyles.kDefaultPadding * 1.5,
+                top: 10.0),
+            child: ListView(
+                children: <Widget>[
+              Container(
+                height: 60,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    color: AppStyles.grey,
+                    borderRadius: BorderRadius.circular(30)),
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 5),
+                    child: TextField(
+                      controller: _searchController,
+                      cursorColor: AppStyles.black,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "Nhập từ cần tra cứu",
+                          hintStyle: TextStyle(
+                              color: AppStyles.black.withOpacity(0.4)),
+                          prefixIcon: Swing(
+                            infinite: true,
+                            child: Icon(
+                              LineIcons.search,
+                              color: AppStyles.black.withOpacity(0.8),
+                            ),
+                          )),
+                      onChanged: (value) {
+                        controller.searchExpectedWords(value);
+                      },
+                    ),
                   ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 30.0,
-            ),
-            SingleChildScrollView(
-              child: Container(
-                height: MediaQuery.of(context).size.height - 185.0,
-                child: ListView(children: [
-                  controller.expectedWords.isNotEmpty
-                      ? StaggeredGridView.countBuilder(
-                          padding: EdgeInsets.all(0),
-                          crossAxisCount: 1,
-                          itemCount: controller.expectedWords.length,
-                          crossAxisSpacing: 10,
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          mainAxisSpacing: 0,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 5.0, bottom: 5.0),
-                              child: InkWell(
-                                radius: 20.0,
-                                onTap: (){
-                                  Get.focusScope!.unfocus();
-                                  Get.toNamed("/detail_word",
-                                      arguments: {"wordId": controller.words[index].id});
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(20.0)),
-                                      border: Border.all(
-                                        color: AppStyles.grey,
-                                        width: 1.0,
-                                      )),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        controller.expectedWords[index].word,
-                                        style: TextStyle(fontSize: 18.0),
-                                      ),
-                                      SizedBox(
-                                        height: 5.0,
-                                      ),
-                                      Row(
+              SizedBox(
+                height: 30.0,
+              ),
+              SingleChildScrollView(
+                child: Container(
+                  height: MediaQuery.of(context).size.height - 185.0,
+                  child: ListView(children: [
+                    controller.expectedWords.isNotEmpty
+                        ? StaggeredGridView.countBuilder(
+                            padding: EdgeInsets.all(0),
+                            crossAxisCount: 1,
+                            itemCount: controller.expectedWords.length,
+                            crossAxisSpacing: 10,
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            mainAxisSpacing: 0,
+                            itemBuilder: (context, index) {
+                              return FadeInUp(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 5.0, bottom: 5.0),
+                                  child: InkWell(
+                                    radius: 20.0,
+                                    onTap: (){
+                                      Get.focusScope!.unfocus();
+                                      Get.toNamed("/detail_word",
+                                          arguments: {"wordId": controller.words[index].id});
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(20.0)),
+                                          border: Border.all(
+                                            color: AppStyles.grey,
+                                            width: 1.0,
+                                          )),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          chipWordType(
-                                              type: "n", width: 40, height: 20),
+                                          Text(
+                                            controller.expectedWords[index].word,
+                                            style: TextStyle(fontSize: 18.0),
+                                          ),
+                                          SizedBox(
+                                            height: 5.0,
+                                          ),
+                                          Row(
+                                            children: [
+                                              chipWordType(
+                                                  type: "n", width: 40, height: 20),
+                                            ],
+                                          )
                                         ],
-                                      )
-                                    ],
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            );
-                          },
-                          staggeredTileBuilder: (index) =>
-                              StaggeredTile.fit(1),
-                        )
-                      : Container(),
-                ]
+                              );
+                            },
+                            staggeredTileBuilder: (index) =>
+                                StaggeredTile.fit(1),
+                          )
+                        : Container(),
+                  ]
+                  ),
                 ),
-              ),
-            )
-          ]
+              )
+            ]
+            ),
           ),
         ),
       );

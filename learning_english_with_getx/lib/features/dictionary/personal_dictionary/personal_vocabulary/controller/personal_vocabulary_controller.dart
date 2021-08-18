@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:learning_english_with_getx/core/constants/app_style_constants.dart';
+import 'package:learning_english_with_getx/core/models/word_details_model.dart';
 import 'package:learning_english_with_getx/core/models/word_model.dart';
 import 'package:learning_english_with_getx/core/repositories/word/word_repo_implement.dart';
 
@@ -7,21 +10,30 @@ class PersonalVocabularyController extends GetxController
 {
   late WordRepoImplement wordRepoImplement;
 
-  RxBool isLoading = false.obs;
+  late RxBool isLoading = true.obs;
 
-  late RxList<Word> words = <Word>[].obs;
+  late RxList<WordDetails> words = <WordDetails>[].obs;
 
   // For Pagination
   RxBool isDataProcessing = false.obs;
-  late RxList<Word> realShowWords = List<Word>.empty(growable: true).obs;
+  late RxList<WordDetails> realShowWords = List<WordDetails>.empty(growable: true).obs;
   RxInt index = 0.obs;
   ScrollController scrollController = ScrollController();
   RxBool isMoreDataAvailable = true.obs;
+
+  RxList<String> filterValues =
+      ["Tất cả", "Danh từ", "Động từ", "Tính từ", "Trạng từ", "Giới từ"].obs;
+  RxString selectedFilterValue = "Tất cả".obs;
+
+  void onChangeFilterValue(String value) {
+    selectedFilterValue.value = value;
+  }
 
   @override
   void onInit() async{
     // TODO: implement onInit
     super.onInit();
+
 
     wordRepoImplement = Get.find<WordRepoImplement>();
 
@@ -40,11 +52,11 @@ class PersonalVocabularyController extends GetxController
   loadWords() async {
     // showLoading();
 
-    final result = await wordRepoImplement.getWords();
+    final result = await wordRepoImplement.getPersonalWords();
 
     if(result != null)
     {
-      words = result.obs;
+      words.value = result.obs;
 
     } else {
 
@@ -55,29 +67,22 @@ class PersonalVocabularyController extends GetxController
   }
 
   showLoading(){
-    isLoading.toggle();
+    isLoading.value = !isLoading.value;
   }
 
   hideLoading(){
-    isLoading.toggle();
+    isLoading.value = !isLoading.value;
   }
 
   // Fetch Data
   void getRealShowWords() {
-    showLoading();
     try {
-      if(words.length > 20)
-      {
-        index.value += 20;
-
-        for(int i = 0; i < index.value; i++)
+        for(int i = 0; i < words.length; i++)
         {
           realShowWords.add(words[i]);
 
           print("${realShowWords[i].word} : $i");
         }
-
-      }
       hideLoading();
     } catch (e) {
       showNotification("Không có từ vựng để hiển thị!");
@@ -141,6 +146,20 @@ class PersonalVocabularyController extends GetxController
     Get.snackbar(
       "Thông báo",
       message,
+      titleText: Text("Thông báo", style: GoogleFonts.nunito(
+        fontSize: 16,
+        color: AppStyles
+            .backgroundColorDark,
+        fontWeight:
+        FontWeight.w700,
+      )),
+      messageText: Text(message, style: GoogleFonts.nunito(
+        fontSize: 14,
+        color: AppStyles
+            .backgroundColorDark,
+        fontWeight:
+        FontWeight.w700,
+      )),
       icon: Icon(Icons.notifications, color: Colors.white),
       snackPosition: SnackPosition.BOTTOM,
       backgroundColor: Colors.orangeAccent,

@@ -16,5 +16,4 @@ class PersonalVocabularyBinding extends Bindings
       Get.put(PersonalVocabularyController());
     }
   }
-
 }

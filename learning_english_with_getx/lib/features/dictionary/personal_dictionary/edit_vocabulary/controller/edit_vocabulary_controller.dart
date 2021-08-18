@@ -75,7 +75,7 @@ class EditVocabularyController extends GetxController
     super.onInit();
 
     httpServiceImplement = Get.find<HttpServiceImplement>();
-    httpServiceImplement.init();
+    // httpServiceImplement.init();
 
     dynamic argument = Get.arguments;
     wordId = argument["wordId"];

@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -37,7 +38,9 @@ class PersonalDictionaryView extends StatelessWidget {
             ],
           ),
         ),
-        body: getBody(controller),
+        body: FadeInDown(
+            delay: Duration(milliseconds: 300),
+            child: getBody(controller)),
         // body: buildTopicList(),
       );
   }
@@ -97,41 +100,56 @@ class PersonalDictionaryView extends StatelessWidget {
           height: 50,
         ),
 
-        Text(
-          "bạn có thể...",
-          style: TextStyle(fontSize: 18),
+        BounceInLeft(
+          delay: Duration(milliseconds: 350),
+          child: Text(
+            "bạn có thể...",
+            style: TextStyle(fontSize: 18),
+          ),
         ),
         SizedBox(
           height: 10,
         ),
-        Text(
-          "...tự tạo từ vựng cho riêng mình...",
-          style: TextStyle(fontSize: 20),
+        BounceInRight(
+          delay: Duration(milliseconds: 350),
+          child: Text(
+            "...tự tạo từ vựng cho riêng mình...",
+            style: TextStyle(fontSize: 20),
+          ),
         ),
 
 
         SizedBox(
           height: 20,
         ),
-        Text(
-          "...tra cứu trên danh sách từ vựng đã tạo...",
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppStyles.backgroundColorDark),
+        BounceInLeft(
+          delay: Duration(milliseconds: 350),
+          child: Text(
+            "...tra cứu trên danh sách từ vựng đã tạo...",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppStyles.backgroundColorDark),
+          ),
         ),
 
         SizedBox(
           height: 20,
         ),
-        Text(
-          "...và...",
-          style: TextStyle(fontSize: 18,),
+        BounceInRight(
+          delay: Duration(milliseconds: 350),
+          child: Text(
+            "...và...",
+            style: TextStyle(fontSize: 18,),
+          ),
         ),
 
         SizedBox(
           height: 20,
         ),
-        Text(
-          "...tự ôn tập, làm bài kiểm tra với các từ vựng đó...",
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppStyles.backgroundColorDark),
+        BounceInLeft(
+          delay: Duration(milliseconds: 350),
+          child: Text(
+            "...tự ôn tập, làm bài kiểm tra với các từ vựng đó...",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppStyles.backgroundColorDark),
+          ),
         ),
 
       ]),

@@ -8,14 +8,14 @@ class AuthBinding extends Bindings
   @override
   void dependencies() {
 
-    if(!Get.isRegistered<HttpServiceImplement>())
-    {
-      Get.put(HttpServiceImplement());
-    }
-
     if(!Get.isRegistered<AppLocalStorageImplement>())
     {
       Get.put(AppLocalStorageImplement());
+    }
+
+    if(!Get.isRegistered<HttpServiceImplement>())
+    {
+      Get.put(HttpServiceImplement());
     }
 
     if(!Get.isRegistered<AuthController>())

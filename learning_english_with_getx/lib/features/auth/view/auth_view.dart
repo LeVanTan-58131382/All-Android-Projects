@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -64,28 +65,36 @@ class AuthView extends StatelessWidget {
                           ),
                           controller.isLogin.isTrue
                               ? Container()
-                              : buildNameTextField(controller),
-                          buildEmailTextField(controller),
-                          buildPasswordTextField(controller),
+                              : ElasticInLeft(child: buildNameTextField(controller)),
+
+                          ElasticInLeft(child: buildEmailTextField(controller)),
+
+                          ElasticInLeft(child: buildPasswordTextField(controller)),
+                          
                           controller.isLogin.isTrue
                               ? Container()
-                              : buildRePasswordTextField(controller),
+                              : ElasticInLeft(child: buildRePasswordTextField(controller)),
+                          
                           controller.isLogin.isTrue
-                              ? buildForgotPasswordField()
+                              ? ElasticInLeft(child: buildForgotPasswordField())
                               : Container(),
+                          
                           controller.isLogin.isTrue
-                              ? buildLoginButton(controller)
-                              : buildRegisterButton(controller),
+                              ? ElasticInLeft(child: buildLoginButton(controller))
+                              : ElasticInLeft(child: buildRegisterButton(controller)),
+                          
                           SizedBox(
                             height: 20,
                           ),
+                          
                           controller.isLogin.isTrue
-                              ? buildPassToRegister(controller)
-                              : buildPassToLogin(controller),
+                              ? ElasticInLeft(child: buildPassToRegister(controller))
+                              : ElasticInLeft(child: buildPassToLogin(controller)),
 
                           SizedBox(height: 20.0,),
 
-                          controller.isLoggingCircleLoading.isTrue || controller.isRegisteringCircleLoading.isTrue ?  SpinKitCircle(color: Colors.green) : Container(),
+                          controller.isLoggingCircleLoading.isTrue || controller.isRegisteringCircleLoading.isTrue ?
+                          BounceInUp(child: SpinKitCircle(color: Colors.red)) : Container(),
                         ],
                       ),
                     ),

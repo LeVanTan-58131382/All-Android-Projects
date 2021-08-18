@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'package:learning_english_with_getx/core/models/word_details_model.dart';
 import 'package:learning_english_with_getx/core/models/word_model.dart';
 import 'package:learning_english_with_getx/core/repositories/word/word_repo_abstract.dart';
 import 'package:learning_english_with_getx/services/network/http_service_implement.dart';
@@ -12,7 +13,7 @@ class WordRepoImplement extends WordRepoAbstract
   WordRepoImplement()
   {
     httpServiceImplement = Get.find<HttpServiceImplement>();
-    httpServiceImplement.init();
+    // httpServiceImplement.init();
   }
 
   @override
@@ -32,6 +33,36 @@ class WordRepoImplement extends WordRepoAbstract
         final List<dynamic> listWordParsedResponse = parsedResponse["data"];
 
         listWord = listWordParsedResponse.map((item) => Word.fromJson(item)).toList();
+
+        return listWord;
+      } else {
+
+      }
+    } catch(e) {
+
+    }
+    return null;
+  }
+
+  @override
+  Future<List<WordDetails>?> getPersonalWords() async {
+    // TODO: implement getWords
+    List<WordDetails> listWord = [];
+
+    try{
+
+      final response = await httpServiceImplement.postRequest(
+          url: "v1/vocabulary/personal-word/get",
+        data: jsonEncode({ "getPersonalWord": true })
+      );
+
+      if(response.statusCode == 200) {
+
+        final parsedResponse = jsonDecode(response.body);
+
+        final List<dynamic> listWordParsedResponse = parsedResponse["data"];
+
+        listWord = listWordParsedResponse.map((item) => WordDetails.fromJson(item)).toList();
 
         return listWord;
       } else {

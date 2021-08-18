@@ -5,12 +5,10 @@ part 'example_model.g.dart';
 @JsonSerializable()
 class Example
 {
-  final String exampleEng;
-  final String exampleVie;
+  final String description;
 
   Example({
-    required this.exampleEng,
-    required this.exampleVie});
+    required this.description,});
 
   factory Example.fromJson(Map<String, dynamic> json) => _$ExampleFromJson(json);
   Map<String, dynamic> toJson() => _$ExampleToJson(this);

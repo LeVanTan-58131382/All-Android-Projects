@@ -17,6 +17,7 @@ class CreateVocabularyBinding extends Bindings
       Get.put(AppLocalStorageImplement());
     }
 
+    // Vì mỗi lần tạo mới từ vựng thì sẽ cần reset lại các giá trị cũ nên ta cứ put ở đây
     Get.put(CreateVocabularyController());
 
   }

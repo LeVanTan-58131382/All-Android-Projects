@@ -33,3 +33,161 @@ GetMaterialApp(
 ## Khai báo một biến kiêu List
 
 var lstTask = List<dynamic>.empty(growable: true).obs;
+
+
+------------------------------------------
+void getUserAccount() async
+  {
+    try{
+      showRegisterCircleLoading();
+
+      final response = await httpServiceImplement.getRequest(
+          url: "v1/me",);
+
+      this.userNameAccount.value = jsonDecode(response.body)["data"]["name"];
+      this.userEmailAccount.value = jsonDecode(response.body)["data"]["email"];
+
+      hideRegisterCircleLoading();
+
+      if(response.statusCode == 200) {
+        // everything ok
+        showNotification(typeNoti: true, message: "Lấy thông tin tài khoản thành công!");
+      } else {
+        showNotification(typeNoti: false, message: "Lấy thông tin tài khoản không thành công!");
+      }
+    } catch(e) {
+      showNotification(typeNoti: false, message: "Có lỗi xảy ra!");
+      hideRegisterCircleLoading();
+    }
+  }
+
+-----------------------------------------------------------------------------
+
+showMyAlertDialog(
+      BuildContext context, CreateVocabularyController controller, int index) {
+    // Create AlertDialog
+    AlertDialog dialog = AlertDialog(
+      title: Text("Tải ảnh"),
+      content: Text("Bạn muốn chọn ảnh từ ?"),
+      actions: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Column(children: [
+              FloatingActionButton(
+                backgroundColor: AppStyles.backgroundColorDark,
+                onPressed: () {
+                  controller.onAddImage(index, ImageSource.camera);
+                  // controller.onAddImageClick(index, ImageSource.camera);
+                },
+                tooltip: "Máy ảnh",
+                child: Icon(Icons.add_a_photo, color: AppStyles.white,),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text("Máy ảnh")
+            ]),
+            Column(children: [
+              FloatingActionButton(
+                backgroundColor: AppStyles.backgroundColorDark,
+                onPressed: () {
+                  controller.onAddImage(index, ImageSource.gallery);
+                  // controller.onAddImageClick(index, ImageSource.gallery);
+                },
+                tooltip: "Thư viện ảnh",
+                child: Icon(Icons.camera_alt, color: AppStyles.white,),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text("Thư viện ảnh")
+            ]),
+          ],
+        ),
+      ],
+    );
+
+    // Call showDialog function to show dialog.
+    Future<dynamic> futureValue = showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return dialog;
+        });
+    Stream stream = futureValue.asStream();
+    stream.listen((dynamic data) {
+      // String answerValue = data;
+
+    }, onDone: () {
+      print("Done!");
+    }, onError: (error) {
+      print("Error! " + error.toString());
+    });
+  }
+
+
+  --------------------------------------------------------
+
+  FadeInDown(
+              delay: Duration(milliseconds: 300),
+              )
+
+  --------------------------------------------------------
+  TextButton(
+    onPressed: () {
+
+    },
+    child: Center(
+      child: Text(
+        'Thêm chủ đề',
+        style:
+        GoogleFonts.nunito(
+          fontSize: 14,
+          color: AppStyles
+              .backgroundColorDark,
+          fontWeight:
+          FontWeight.w700,
+        ),
+      ),
+    ),
+    style: ButtonStyle(
+        overlayColor:
+        MaterialStateProperty.all(
+            AppStyles
+                .lightGreen),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+            borderRadius:
+            BorderRadius.circular(
+                50.0),
+            side: BorderSide(
+                color: AppStyles
+                    .backgroundColorDark)))),
+  ),
+
+
+ -------------------------------------------------------------------------------
+
+ // Center(
+ //   child: DropdownButton(
+ //     hint: Text(
+ //       'Chọn chủ đề',
+ //     ),
+ //     onChanged: (newValue) {
+ //       controller
+ //           .onChangeUserTopic(newValue as UserTopic);
+ //       print(newValue.name);
+ //     },
+ //     // value: controller.selectedUserTopic.value.name,
+ //
+ //     items:
+ //         controller.userTopics.map((selectedUserTopic) {
+ //       return DropdownMenuItem(
+ //         child: new Text(
+ //           selectedUserTopic.name,
+ //           overflow: TextOverflow.ellipsis,
+ //         ),
+ //         value: selectedUserTopic,
+ //       );
+ //     }).toList(),
+ //   ),
+ // ),
